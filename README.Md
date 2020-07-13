@@ -22,3 +22,13 @@ Then, install the requirements with:
 ```
 pip install -r requirements.txt
 ```
+
+### Running app
+
+Run the app by executing:
+
+```
+flask run
+```
+
+Optionally, the `FLASK_DEBUG=1` flag can be added prior to the command, to allow for updates on code change, without having to restart the server.
