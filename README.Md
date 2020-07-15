@@ -10,8 +10,8 @@ Creating a virtual environment is recommended to avoid overwriting global instal
 
 To create a virtual env, create a `venv` folder inside the project's directory, and activate it, as follows:
 
-```
-python3 -m venv env
+```bash
+python3 -m venv venv
 . venv/bin/activate
 ```
 
@@ -19,7 +19,7 @@ python3 -m venv env
 
 Then, install the requirements with:
 
-```
+```bash
 pip install -r requirements.txt
 ```
 
@@ -27,7 +27,7 @@ pip install -r requirements.txt
 
 Run the app by executing:
 
-```
+```bash
 flask run
 ```
 
