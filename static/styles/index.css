@@ -10,7 +10,7 @@
 }
 
 body {
-  min-height: 100vh;
+  height: 100vh;
   background-color: black
 }
 
@@ -19,20 +19,21 @@ body {
   height: 100%;
   position: fixed;
   z-index: -1;
-  opacity: .2;
+  opacity: .3;
   background-image: url(../img/background2-min.jpg);
   background-size: cover;
 }
 
 header {
   display: flex;
-  min-height: 8rem;
+  min-height: 18vh;
   justify-content: space-evenly;
   align-items: center;
 }
 
 .header-item {
   font-family: Poppins;
+  font-size: 2vh;
   font-weight: 800;
   color: var(--light-gray);
   text-decoration: none;
@@ -44,20 +45,21 @@ header {
 }
 
 main {
-  margin-top: 2rem;
+  margin-top: .5vh;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-main > img {
-  height: 30rem;
+main>img {
+  height: 50vh;
   width: auto;
 }
 
-main > h1 {
+main>h1 {
   text-align: center;
   width: 50%;
+  font-size: 4vh;
   font-family: Montserrat;
 }
 
@@ -72,23 +74,52 @@ footer {
 
 .footer-cont {
   display: flex;
-  width: 30%;
+  width: 50%;
   justify-content: space-around;
 }
 
 .footer-el {
   display: flex;
   align-items: center;
-  font-family: Montserrat;
 }
 
-.footer-el > img {
+.footer-el>img {
   width: 15px;
   height: auto;
   margin-right: 5px;
   filter: invert(100%) sepia(0%) saturate(4921%) hue-rotate(184deg) brightness(97%) contrast(72%);
 }
 
-.footer-el > div {
-  color: var(--light-gray)
+.footer-el>div {
+  color: var(--light-gray);
+  font-family: Montserrat;
+  font-size: 2vh;
+}
+
+@media (orientation: landscape) and (max-width: 600px) {
+  .header-item {
+    font-size: 1.6vh;
+  }
+
+  main>h1 {
+    font-size: 2.8vh;
+  }
+}
+
+@media (orientation: portrait) {
+  .header-item {
+    font-size: 1.5vw;
+  }
+
+  main>h1 {
+    font-size: 3vw;
+  }
+
+  .footer-el>img {
+    width: 8px;
+  }
+
+  .footer-el>div {
+    font-size: 2vw;
+  }
 }
