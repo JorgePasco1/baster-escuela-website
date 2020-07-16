@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Poppins:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/shared.css') }}">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+
+<body>
+    <nav>
+        <div class="menu-container img-cont">
+            <a href="/">
+                <img src="{{ url_for('static', filename='img/logo.png') }}">
+            </a>
+        </div>
+        <div class="menu-container items-cont">
+            <a href="/about" class="{{ 'active' if active == 'about'}}">SOBRE NOSOTROS</a>
+            <a href="/atletas" class="{{ 'active' if active == 'atletas'}}">NUESTROS ATLETAS</a>
+            <a href="/abierto" class="{{ 'active' if active == 'abierto'}}">ABIERTO BASTER ESCUELA</a>
+            <a href="/productos" class="{{ 'active' if active == 'productos'}}">PRODUCTOS EN VENTA</a>
+        </div>
+    </nav>
+    <main>
+        {% block main %}{% endblock %}
+    </main>
+</body>
+
+</html>
