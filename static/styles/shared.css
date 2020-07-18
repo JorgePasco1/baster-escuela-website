@@ -75,3 +75,71 @@ nav {
 .items-cont .active {
     color: var(--main-orange)
 }
+
+main {
+    padding-bottom: 3rem;
+}
+
+footer {
+    height: 15rem;
+    background-color: var(--dark-gray);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.info-container {
+    width: 50%;
+    height: 40%;
+    display: grid;
+    grid-template:
+        "s c"
+        "sc cc"
+        "sc cc";
+    justify-items: center;
+    align-items: center;
+    font-family: Montserrat;
+    font-weight: 700;
+    font-size: .8rem;
+    color: var(--light-gray);
+}
+
+.siguenos {
+    grid-area: s;
+}
+
+.siguenos-content {
+    margin-left: -10px;
+    grid-area: sc;
+    display: flex;
+    width: 20%;
+    justify-content: space-around;
+}
+
+.contacto {
+    grid-area: c;
+}
+
+.contacto-content {
+    grid-area: cc;
+    display: flex;
+    flex-direction: column;
+}
+
+.contacto-el {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+}
+
+footer .siguenos-content img {
+    width: 1.5rem;
+    margin-left: 10px;
+}
+
+.contacto-el > img {
+    width: 1rem;
+    filter: invert(100%) sepia(0%) saturate(4921%) hue-rotate(184deg) brightness(97%) contrast(72%);
+}
