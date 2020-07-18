@@ -1,0 +1,59 @@
+h1 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-family: var(--title);
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--dark-gray)
+}
+
+.mv-section {
+    display: grid;
+    width:100%;
+    height: 5rem;
+    grid-template: 
+            "mc vc"
+            "mc vc"
+            "mt vt";
+    justify-items: center;
+    align-items: center;
+}
+
+.m-container {
+    grid-area: mc;
+    background-color: var(--main-red);
+}
+
+.v-container {
+    grid-area: vc;
+    background-color: var(--main-orange);
+}
+
+.m-text-container {
+    grid-area: mt;
+}
+
+.v-text-container {
+    grid-area: vt;
+}
+
+.mv-title {
+    width: fit-content;
+    height: fit-content;
+    border-radius: 50px;
+    padding: 1.1rem 3rem 1rem 3rem;
+    margin-bottom: 1rem;
+    font-family: var(--title);
+    font-weight: 800;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.mv-text {
+    padding: 0 3rem 0 3rem;
+    font-family: var(--content);
+    font-size: 1.5rem;
+    text-align: center;
+}

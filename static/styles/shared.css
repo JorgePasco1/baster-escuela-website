@@ -1,9 +1,11 @@
 :root {
-    --main-red: #D74000;
+    --main-red: rgb(226, 70, 3);
     --main-orange: #E57D02;
     --dark-gray: #252525;
     --super-light-gray: #FCFCFC;
     --light-gray: #D0D0D0;
+    --title: Poppins;
+    --content: Montserrat
 }
 
 * {
@@ -25,7 +27,7 @@ nav {
     background-color: var(--dark-gray);
     display: flex;
     align-items: center;
-    font-family: Poppins;
+    font-family: var(--title);
     font-weight: 700;
     font-size: .8rem;
 }

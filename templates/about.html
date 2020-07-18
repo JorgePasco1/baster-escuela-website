@@ -3,7 +3,18 @@
 {% block title %}
 Sobre nosotros
 {% endblock %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/about.css') }}">
+{% endblock %}
 
 {% block main %}
-Sobre nosotros
+<h1>SOBRE NOSOTROS</h1>
+<div class="mv-section">
+    <div class="m-container mv-title">MISIÓN</div>
+    <div class="v-container mv-title">VISIÓN</div>
+    <div class="m-text-container mv-text">Desarrollar el tenis de mesa en el norte del país,
+        formando atletas íntegros.</div>
+    <div class="v-text-container mv-text">Ser el club líder a nivel nacional de tenis de mesa
+        en alto rendimiento .</div>
+</div>
 {% endblock %}
