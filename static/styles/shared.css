@@ -137,6 +137,11 @@ footer {
 footer .siguenos-content img {
     width: 1.5rem;
     margin-left: 10px;
+    transition: all .2s;
+}
+
+.siguenos-content img:hover {
+    filter: invert(10%) sepia(0%) saturate(4921%) hue-rotate(184deg) brightness(97%) contrast(72%);
 }
 
 .contacto-el > img {
