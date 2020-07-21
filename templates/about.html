@@ -17,7 +17,7 @@ Sobre nosotros
     <div class="v-text-container mv-text">Ser el club líder a nivel nacional de tenis de mesa
         en alto rendimiento .</div>
 </section>
-<section class="historia">
+<section class="directiva">
     <h2>DIRECTIVA</h2>
     <div class="directiva-container">
         {% for persona in directiva %}
@@ -28,18 +28,18 @@ Sobre nosotros
                 <div class="directiva-item-description">{{ persona["descripcion"] }}</div>
             </div>
         {% endfor %}
-        <!-- <div class="directiva-item">
-            <img src="{{ url_for('static', filename='img/logo.png') }}">
-            <div class="directiva-item-name">Reiner <span class="bold">Baster</span></div>
-            <div class="directiva-item-role bold">Presidente</div>
-            <div class="directiva-item-description">Licenciado en cultura física por la Universidad de Ciencias de la Cultura Física y el Deporte Manuel Fajardo en Holguín, Cuba. Coach ITTF Nivel 3*, con más de 30 años de experiencia como entrenador, dirigiendo selecciones nacionales de Cuba y Perú.</div>
-        </div>
-        <div class="directiva-item">
-            <img src="{{ url_for('static', filename='img/logo.png') }}">
-        </div>
-        <div class="directiva-item">
-            <img src="{{ url_for('static', filename='img/logo.png') }}">
-        </div> -->
+    </div>
+</section>
+<section class="entrenadores">
+    <h2>ENTRENADORES</h2>
+    <div class="directiva-container">
+        {% for persona in entrenadores %}
+            <div class="directiva-item">
+                <img src="{{ url_for('static', filename=persona['foto']) }}">
+                <div class="directiva-item-name">{{ persona["nombre"] }} <span class="bold">{{ persona["apellido"] }}</span></div>
+                <div class="directiva-item-description">{{ persona["descripcion"] }}</div>
+            </div>
+        {% endfor %}
     </div>
 </section>
 {% endblock %}
