@@ -19,25 +19,25 @@ Sobre nosotros
 </section>
 <section class="directiva">
     <h2>DIRECTIVA</h2>
-    <div class="directiva-container">
+    <div class="card-container">
         {% for persona in directiva %}
-            <div class="directiva-item">
+            <div class="card-item">
                 <img src="{{ url_for('static', filename=persona['foto']) }}">
-                <div class="directiva-item-name">{{ persona["nombre"] }} <span class="bold">{{ persona["apellido"] }}</span></div>
-                <div class="directiva-item-role bold">{{ persona["cargo"] }}</div>
-                <div class="directiva-item-description">{{ persona["descripcion"] }}</div>
+                <div class="card-item-name">{{ persona["nombre"] }} <span class="bold">{{ persona["apellido"] }}</span></div>
+                <div class="card-item-role bold">{{ persona["cargo"] }}</div>
+                <div class="card-item-description">{{ persona["descripcion"] }}</div>
             </div>
         {% endfor %}
     </div>
 </section>
 <section class="entrenadores">
     <h2>ENTRENADORES</h2>
-    <div class="directiva-container">
+    <div class="card-container">
         {% for persona in entrenadores %}
-            <div class="directiva-item">
+            <div class="card-item">
                 <img src="{{ url_for('static', filename=persona['foto']) }}">
-                <div class="directiva-item-name">{{ persona["nombre"] }} <span class="bold">{{ persona["apellido"] }}</span></div>
-                <div class="directiva-item-description">{{ persona["descripcion"] }}</div>
+                <div class="card-item-name">{{ persona["nombre"] }} <span class="bold">{{ persona["apellido"] }}</span></div>
+                <div class="card-item-description">{{ persona["descripcion"] }}</div>
             </div>
         {% endfor %}
     </div>

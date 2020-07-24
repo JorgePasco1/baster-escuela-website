@@ -21,26 +21,26 @@ def strip_accents(text):
 
 def connect_to_db():
     try:
-        conn = sqlite3.connect('./baster_escuela.db', check_same_thread=False)
+        conn = sqlite3.connect('./baster_escuela.db')
         conn.row_factory = dict_factory  # Set dict factory
         db = conn.cursor()
-        print("Success")
+        print("Connected to db")
         return db
     except Exception:
         print(Exception)
 
 
 def write_blob_to_file(data, type, file_name):
-    """Convert blob into img file"""
+    """Converts blob into img file and returns the name of the file created"""
     file_name_utf8 = strip_accents(file_name)
     filename = f"img/photos/{type}/{file_name_utf8}.jpg"
-    print("filename", filename)
     with open(f".{url_for('static', filename=filename)}", "wb+") as file:
         file.write(data)
     return filename
 
 
 def get_members(table):
+    """Get records of a table, and, in case of having a photo column, write blob to file and get filename"""
     result_array = []
     db = connect_to_db()
     # No need to sanitize sql query, since it's gonna be used by admins
@@ -53,8 +53,8 @@ def get_members(table):
                 new_item[key] = value
             else:
                 nombre = el['nombre'].replace(' ', '-')
-                apellido = f"-{el['apellido'].replace(' ', '-')}"
-                file_name = f"{nombre}{apellido}"
+                apellido = f"{el['apellido'].replace(' ', '-')}"
+                file_name = f"{el['id']}-{nombre}-{apellido}"
                 complete_path = write_blob_to_file(
                     value, table, file_name)
                 new_item[key] = complete_path

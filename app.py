@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template
 from helpers import dict_factory, write_blob_to_file, get_members
 
 app = Flask(__name__)
@@ -31,7 +31,9 @@ def about():
 @app.route('/atletas')
 def atletas():
     name = 'atletas'
-    return render_template(f"{name}.html", active=f"{name}")
+    atletas = get_members("atletas")
+
+    return render_template(f"{name}.html", active=f"{name}", atletas=atletas)
 
 
 @app.route('/abierto')

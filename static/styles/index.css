@@ -19,7 +19,8 @@ body {
   height: 100%;
   position: fixed;
   z-index: -1;
-  opacity: .3;
+  opacity: .6;
+  filter: blur(8px);
   background-image: url(../img/background2-min.jpg);
   background-size: cover;
 }

@@ -3,7 +3,23 @@
 {% block title %}
 Nuestros Atletas
 {% endblock %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/atletas.css') }}">
+{% endblock %}
 
 {% block main %}
-Nuestros atletas
+<h1>NUESTROS ATLETAS</h1>
+<p>Nuestros atletas son el <span class="bold red">corazón</span> de nuestro club, aquellos que llevan a la gloria el nombre de la <span class="bold orange">escuela</span>. Cada uno de ellos destaca por sus cualidades únicas, las cuáles buscamos potenciar mediante un <span class="underline">entrenamiento especializado</span>. 💪</p>
+<section class="atletas">
+    <div class="card-container">
+        {% for persona in atletas %}
+        <div class="card-item">
+            <img id="test" class="clickable" src="{{ url_for('static', filename=persona['foto']) }}">
+            <div class="card-item-name">{{ persona["nombre"] }} <span class="bold">{{ persona["apellido"] }}</span>
+            </div>
+            <div class="card-item-description">{{ persona["descripcion"] }}</div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
 {% endblock %}
