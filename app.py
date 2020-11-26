@@ -22,7 +22,7 @@ def home():
 @app.route('/about')
 def about():
     name = 'about'
-    directiva= get_members("miembros_directiva")
+    directiva = get_members("miembros_directiva")
     entrenadores = get_members("entrenadores")
 
     return render_template(f"{name}.html", active=f"{name}", directiva=directiva, entrenadores=entrenadores)

@@ -4,6 +4,7 @@
 Sobre nosotros
 {% endblock %}
 {% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/timeline.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/about.css') }}">
 {% endblock %}
 
@@ -17,16 +18,164 @@ Sobre nosotros
     <div class="v-text-container mv-text">Ser el club líder a nivel nacional de tenis de mesa
         en alto rendimiento .</div>
 </section>
+<section class="cd-timeline js-cd-timeline">
+    <h2>NUESTRA HISTORIA</h2>
+    <!-- Timeline taken from https://codyhouse.co/demo/vertical-timeline/index.html -->
+    <div class="container max-width-lg cd-timeline__container">
+        <div class="cd-timeline__block">
+            <div class="cd-timeline__img cd-timeline__img--picture">
+                <img src="{{ url_for('static', filename='img/timeline-img/cd-icon-picture.svg') }}" alt="Picture" />
+            </div>
+            <!-- cd-timeline__img -->
+
+            <div class="cd-timeline__content text-component">
+                <h2>Title of section 1</h2>
+                <p class="color-contrast-medium">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto,
+                    optio, dolorum provident rerum aut hic quasi placeat iure tempora
+                    laudantium ipsa ad debitis unde? Iste voluptatibus minus veritatis
+                    qui ut.
+                </p>
+
+                <div class="flex justify-between items-center">
+                    <span class="cd-timeline__date">Jan 14</span>
+                    <a href="#0" class="btn btn--subtle">Read more</a>
+                </div>
+            </div>
+            <!-- cd-timeline__content -->
+        </div>
+        <!-- cd-timeline__block -->
+
+        <div class="cd-timeline__block">
+            <div class="cd-timeline__img cd-timeline__img--movie">
+                <img src="{{ url_for('static', filename='img/timeline-img/cd-icon-movie.svg') }}" alt="Movie" />
+            </div>
+            <!-- cd-timeline__img -->
+
+            <div class="cd-timeline__content text-component">
+                <h2>Title of section 2</h2>
+                <p class="color-contrast-medium">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto,
+                    optio, dolorum provident rerum aut hic quasi placeat iure tempora
+                    laudantium ipsa ad debitis unde?
+                </p>
+
+                <div class="flex justify-between items-center">
+                    <span class="cd-timeline__date">Jan 18</span>
+                    <a href="#0" class="btn btn--subtle">Read more</a>
+                </div>
+            </div>
+            <!-- cd-timeline__content -->
+        </div>
+        <!-- cd-timeline__block -->
+
+        <div class="cd-timeline__block">
+            <div class="cd-timeline__img cd-timeline__img--picture">
+                <img src="{{ url_for('static', filename='img/timeline-img/cd-icon-picture.svg') }}" alt="Picture" />
+            </div>
+            <!-- cd-timeline__img -->
+
+            <div class="cd-timeline__content text-component">
+                <h2>Title of section 3</h2>
+                <p class="color-contrast-medium">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    Excepturi, obcaecati, quisquam id molestias eaque asperiores
+                    voluptatibus cupiditate error assumenda delectus odit similique
+                    earum voluptatem doloremque dolorem ipsam quae rerum quis. Odit,
+                    itaque, deserunt corporis vero ipsum nisi eius odio natus ullam
+                    provident pariatur temporibus quia eos repellat consequuntur
+                    perferendis enim amet quae quasi repudiandae sed quod veniam
+                    dolore possimus rem voluptatum eveniet eligendi quis fugiat
+                    aliquam sunt similique aut adipisci.
+                </p>
+
+                <div class="flex justify-between items-center">
+                    <span class="cd-timeline__date">Jan 24</span>
+                    <a href="#0" class="btn btn--subtle">Read more</a>
+                </div>
+            </div>
+            <!-- cd-timeline__content -->
+        </div>
+        <!-- cd-timeline__block -->
+
+        <div class="cd-timeline__block">
+            <div class="cd-timeline__img cd-timeline__img--location">
+                <img src="{{ url_for('static', filename='img/timeline-img/cd-icon-location.svg') }}" alt="Location" />
+            </div>
+            <!-- cd-timeline__img -->
+
+            <div class="cd-timeline__content text-component">
+                <h2>Title of section 4</h2>
+                <p class="color-contrast-medium">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto,
+                    optio, dolorum provident rerum aut hic quasi placeat iure tempora
+                    laudantium ipsa ad debitis unde? Iste voluptatibus minus veritatis
+                    qui ut.
+                </p>
+
+                <div class="flex justify-between items-center">
+                    <span class="cd-timeline__date">Feb 14</span>
+                    <a href="#0" class="btn btn--subtle">Read more</a>
+                </div>
+            </div>
+            <!-- cd-timeline__content -->
+        </div>
+        <!-- cd-timeline__block -->
+
+        <div class="cd-timeline__block">
+            <div class="cd-timeline__img cd-timeline__img--location">
+                <img src="{{ url_for('static', filename='img/timeline-img/cd-icon-location.svg') }}" alt="Location" />
+            </div>
+            <!-- cd-timeline__img -->
+
+            <div class="cd-timeline__content text-component">
+                <h2>Title of section 5</h2>
+                <p class="color-contrast-medium">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto,
+                    optio, dolorum provident rerum.
+                </p>
+
+                <div class="flex justify-between items-center">
+                    <span class="cd-timeline__date">Feb 18</span>
+                    <a href="#0" class="btn btn--subtle">Read more</a>
+                </div>
+            </div>
+            <!-- cd-timeline__content -->
+        </div>
+        <!-- cd-timeline__block -->
+
+        <div class="cd-timeline__block">
+            <div class="cd-timeline__img cd-timeline__img--movie">
+                <img src="{{ url_for('static', filename='img/timeline-img/cd-icon-movie.svg') }}" alt="Movie" />
+            </div>
+            <!-- cd-timeline__img -->
+
+            <div class="cd-timeline__content text-component">
+                <h2>Final Section</h2>
+                <p class="color-contrast-medium">
+                    This is the content of the last section
+                </p>
+
+                <div class="flex justify-between items-center">
+                    <span class="cd-timeline__date">Feb 26</span>
+                </div>
+            </div>
+            <!-- cd-timeline__content -->
+        </div>
+        <!-- cd-timeline__block -->
+    </div>
+</section>
 <section class="directiva">
     <h2>DIRECTIVA</h2>
     <div class="card-container">
         {% for persona in directiva %}
-            <div class="card-item">
-                <img src="{{ url_for('static', filename=persona['foto']) }}">
-                <div class="card-item-name">{{ persona["nombre"] }} <span class="bold">{{ persona["apellido"] }}</span></div>
-                <div class="card-item-role bold">{{ persona["cargo"] }}</div>
-                <div class="card-item-description">{{ persona["descripcion"] }}</div>
+        <div class="card-item">
+            <img src="{{ url_for('static', filename=persona['foto']) }}">
+            <div class="card-item-name">{{ persona["nombre"] }} <span class="bold">{{ persona["apellido"] }}</span>
             </div>
+            <div class="card-item-role bold">{{ persona["cargo"] }}</div>
+            <div class="card-item-description">{{ persona["descripcion"] }}</div>
+        </div>
         {% endfor %}
     </div>
 </section>
@@ -34,12 +183,14 @@ Sobre nosotros
     <h2>ENTRENADORES</h2>
     <div class="card-container">
         {% for persona in entrenadores %}
-            <div class="card-item">
-                <img src="{{ url_for('static', filename=persona['foto']) }}">
-                <div class="card-item-name">{{ persona["nombre"] }} <span class="bold">{{ persona["apellido"] }}</span></div>
-                <div class="card-item-description">{{ persona["descripcion"] }}</div>
+        <div class="card-item">
+            <img src="{{ url_for('static', filename=persona['foto']) }}">
+            <div class="card-item-name">{{ persona["nombre"] }} <span class="bold">{{ persona["apellido"] }}</span>
             </div>
+            <div class="card-item-description">{{ persona["descripcion"] }}</div>
+        </div>
         {% endfor %}
     </div>
 </section>
+<script src="{{ url_for('static', filename='js/timeline.js') }}"></script>
 {% endblock %}
