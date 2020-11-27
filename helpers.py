@@ -49,15 +49,26 @@ def get_members(table):
     for el in results:
         new_item = {}
         for key, value in el.items():
-            if key != "foto":
-                new_item[key] = value
+            if key == "foto":
+                if value:
+                    nombre = el['nombre'].replace(' ', '-')
+                    apellido = f"{el['apellido'].replace(' ', '-')}"
+                    file_name = f"{el['id']}-{nombre}-{apellido}"
+                    complete_path = write_blob_to_file(
+                        value, table, file_name)
+                    new_item[key] = complete_path
+                else:
+                    new_item[key] = "img/logo.png"
+            elif key == "mes":
+                new_item[key] = month_number_to_text(value)
             else:
-                nombre = el['nombre'].replace(' ', '-')
-                apellido = f"{el['apellido'].replace(' ', '-')}"
-                file_name = f"{el['id']}-{nombre}-{apellido}"
-                complete_path = write_blob_to_file(
-                    value, table, file_name)
-                new_item[key] = complete_path
+                new_item[key] = value
+
         result_array.append(new_item)
 
     return result_array
+
+
+def month_number_to_text(month_number: int) -> str:
+    months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
+    return months[month_number - 1]

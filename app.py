@@ -24,8 +24,10 @@ def about():
     name = 'about'
     directiva = get_members("miembros_directiva")
     entrenadores = get_members("entrenadores")
+    hitos = get_members("hitos")
 
-    return render_template(f"{name}.html", active=f"{name}", directiva=directiva, entrenadores=entrenadores)
+    return render_template(f"{name}.html", active=f"{name}", hitos=hitos,
+                           directiva=directiva, entrenadores=entrenadores)
 
 
 @app.route('/atletas')
