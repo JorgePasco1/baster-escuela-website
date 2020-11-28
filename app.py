@@ -1,5 +1,5 @@
-from flask import Flask, render_template
-from helpers import dict_factory, write_blob_to_file, get_members
+from flask import Flask, render_template, request, jsonify
+from helpers import dict_factory, write_blob_to_file, get_items
 
 app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
@@ -22,9 +22,9 @@ def home():
 @app.route('/about')
 def about():
     name = 'about'
-    directiva = get_members("miembros_directiva")
-    entrenadores = get_members("entrenadores")
-    hitos = get_members("hitos")
+    directiva = get_items("miembros_directiva")
+    entrenadores = get_items("entrenadores")
+    hitos = get_items("hitos")
 
     return render_template(f"{name}.html", active=f"{name}", hitos=hitos,
                            directiva=directiva, entrenadores=entrenadores)
@@ -33,7 +33,7 @@ def about():
 @app.route('/atletas')
 def atletas():
     name = 'atletas'
-    atletas = get_members("atletas")
+    atletas = get_items("atletas")
 
     return render_template(f"{name}.html", active=f"{name}", atletas=atletas)
 
@@ -48,3 +48,15 @@ def abierto():
 def productos():
     name = 'productos'
     return render_template(f"{name}.html", active=f"{name}")
+
+
+@app.route('/logros')
+def send_logros():
+    player_id = request.args.get('player_id')
+
+    if not player_id:
+        return jsonify({"message": "missing player id"}), 400
+
+    filters = [{"field": "alumno_id", "values":[player_id]}]
+    logros = get_items("logros", filters=filters)
+    return jsonify({"message": "success", "items": logros}), 200

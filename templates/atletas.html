@@ -14,7 +14,7 @@ Nuestros Atletas
     <div class="card-container">
         {% for persona in atletas %}
         <div class="card-item">
-            <img id="test" class="clickable" src="{{ url_for('static', filename=persona['foto']) }}">
+            <img class="clickable atelta-clickable-photo" src="{{ url_for('static', filename=persona['foto']) }}" data-player_id="{{ persona['id'] }}">
             <div class="card-item-name">{{ persona["nombre"] }} <span class="bold">{{ persona["apellido"] }}</span>
             </div>
             <div class="card-item-description">{{ persona["descripcion"] }}</div>
@@ -22,4 +22,5 @@ Nuestros Atletas
         {% endfor %}
     </div>
 </section>
+<script src="{{ url_for('static', filename='js/atletas.js') }}"></script>
 {% endblock %}

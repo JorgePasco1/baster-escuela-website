@@ -39,12 +39,20 @@ def write_blob_to_file(data, type, file_name):
     return filename
 
 
-def get_members(table):
+def get_items(table, filters=[]):
     """Get records of a table, and, in case of having a photo column, write blob to file and get filename"""
     result_array = []
     db = connect_to_db()
-    # No need to sanitize sql query, since it's gonna be used by admins
-    results = db.execute(f"SELECT * FROM {table}").fetchall()
+
+    final_filter_string = 'WHERE '
+    for i, _filter in enumerate(filters):
+        field = _filter.get('field')
+        values = _filter.get('values')
+        values_str = ', '.join(values)
+        filter_str = f"{field} IN ({values_str})"
+        final_filter_string = final_filter_string + filter_str + (' AND ' if i < len(filters) - 1 else '')
+
+    results = db.execute(f"SELECT * FROM {table} {final_filter_string if len(filters) > 0 else ''}").fetchall()
 
     for el in results:
         new_item = {}
