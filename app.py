@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-from helpers import dict_factory, write_blob_to_file, get_items
+from helpers import dict_factory, write_blob_to_file, get_items, format_logros
 
 app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
@@ -34,8 +34,11 @@ def about():
 def atletas():
     name = 'atletas'
     atletas = get_items("atletas")
+    logros = get_items("logros", group_by="alumno_id")
+    print("logros", logros)
+    logros = format_logros(logros)
 
-    return render_template(f"{name}.html", active=f"{name}", atletas=atletas)
+    return render_template(f"{name}.html", active=f"{name}", atletas=atletas, logros=logros)
 
 
 @app.route('/abierto')
@@ -50,13 +53,13 @@ def productos():
     return render_template(f"{name}.html", active=f"{name}")
 
 
-@app.route('/logros')
+@app.route('/api/v1/logros')
 def send_logros():
     player_id = request.args.get('player_id')
 
     if not player_id:
         return jsonify({"message": "missing player id"}), 400
 
-    filters = [{"field": "alumno_id", "values":[player_id]}]
+    filters = [{"field": "alumno_id", "values": [player_id]}]
     logros = get_items("logros", filters=filters)
     return jsonify({"message": "success", "items": logros}), 200

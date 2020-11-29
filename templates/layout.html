@@ -26,7 +26,7 @@
             <a href="/productos" class="{{ 'active' if active == 'productos'}}">PRODUCTOS EN VENTA</a>
         </div>
     </nav>
-    <main>
+    <main class=".main">
         {% block main %}{% endblock %}
     </main>
     <footer>
@@ -53,6 +53,8 @@
             </div>
         </div>
     </footer>
+    {% block modal %}{% endblock %}
+    {% block scripts %}{% endblock %}
 </body>
 
 </html>

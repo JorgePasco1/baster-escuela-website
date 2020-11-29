@@ -5,22 +5,58 @@ Nuestros Atletas
 {% endblock %}
 {% block styles %}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/atletas.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/modal.css') }}">
 {% endblock %}
 
 {% block main %}
 <h1>NUESTROS ATLETAS</h1>
-<p>Nuestros atletas son el <span class="bold red">corazón</span> de nuestro club, aquellos que llevan a la gloria el nombre de la <span class="bold orange">escuela</span>. Cada uno de ellos destaca por sus cualidades únicas, las cuáles buscamos potenciar mediante un <span class="underline">entrenamiento especializado</span>. 💪</p>
+<p>Nuestros atletas son el <span class="bold red">corazón</span> de nuestro club, aquellos que llevan a la gloria el
+    nombre de la <span class="bold orange">escuela</span>. Cada uno de ellos destaca por sus cualidades únicas, las
+    cuáles buscamos potenciar mediante un <span class="underline">entrenamiento especializado</span>. 💪</p>
 <section class="atletas">
     <div class="card-container">
-        {% for persona in atletas %}
+        {% for atleta in atletas %}
         <div class="card-item">
-            <img class="clickable atelta-clickable-photo" src="{{ url_for('static', filename=persona['foto']) }}" data-player_id="{{ persona['id'] }}">
-            <div class="card-item-name">{{ persona["nombre"] }} <span class="bold">{{ persona["apellido"] }}</span>
+            <img class="clickable atelta-clickable-photo" src="{{ url_for('static', filename=atleta['foto']) }}"
+                data-player_id="{{ atleta['id'] }}" data-micromodal-trigger="modal-{{ atleta['id'] }}">
+            <div class="card-item-name">{{ atleta["nombre"] }} <span class="bold">{{ atleta["apellido"] }}</span>
             </div>
-            <div class="card-item-description">{{ persona["descripcion"] }}</div>
+        </div>
+        <div class="modal micromodal-slide" id="modal-{{ atleta['id'] }}" aria-hidden="true">
+            <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+                <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
+                    <header class="modal__header">
+                        <h2 class="modal__title" id="modal-1-title">
+                            Logros de {{ atleta["nombre"] }}
+                        </h2>
+                        <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
+                    </header>
+                    <div class="modal__content" id="modal-1-content">
+                        <ul>
+                            {% for logro in logros[atleta["id"]] %}
+                            <li>
+                                <span><strong>{{ logro["año"] }}:</strong> </span>
+                                {% if logro["tipo"] == 'Torneo' %}
+                                <span>Torneo {{ logro["nivel_torneo"] }} - {{ logro["puesto"] }} (Categoría {{ logro["categoria"] }})</span>
+                                {% elif logro["tipo"] == 'Seleccionado' %}
+                                <span>Seleccionado Nacional</span>
+                                {% else %}
+                                <span>{{ logro["nivel_torneo"] }} - {{ logro["puesto"] }}</span>
+                                {% endif %}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
         {% endfor %}
     </div>
 </section>
+{% endblock %}
+{% block modal %}
+{% endblock %}
+{% block scripts %}
+<script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
 <script src="{{ url_for('static', filename='js/atletas.js') }}"></script>
 {% endblock %}
