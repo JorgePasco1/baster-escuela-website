@@ -1,8 +1,12 @@
+import os
+
 from flask import Flask, render_template, request, jsonify
 from helpers import dict_factory, write_blob_to_file, get_items, format_logros
 
 app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
+HOST = os.environ.get('HOST') or "localhost:5000"
+app.config["SERVER_NAME"] = HOST
 
 
 # Ensure responses aren't cached
@@ -34,9 +38,7 @@ def about():
 def atletas():
     name = 'atletas'
     atletas = get_items("atletas")
-    logros = get_items("logros", group_by="alumno_id")
-    print("logros", logros)
-    logros = format_logros(logros)
+    logros = format_logros(get_items("logros", group_by="alumno_id"))
 
     return render_template(f"{name}.html", active=f"{name}", atletas=atletas, logros=logros)
 
@@ -63,3 +65,8 @@ def send_logros():
     filters = [{"field": "alumno_id", "values": [player_id]}]
     logros = get_items("logros", filters=filters)
     return jsonify({"message": "success", "items": logros}), 200
+
+
+@app.route('/', subdomain='admin')
+def admin_home():
+    return 'Admin page'
