@@ -3,10 +3,13 @@ import os
 from flask import Flask, render_template, request, jsonify
 from helpers import dict_factory, write_blob_to_file, get_items, format_logros
 
+from admin import admin_blueprint
+
 app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 HOST = os.environ.get('HOST') or "localhost:5000"
 app.config["SERVER_NAME"] = HOST
+app.register_blueprint(admin_blueprint, subdomain='admin')
 
 
 # Ensure responses aren't cached
@@ -65,8 +68,3 @@ def send_logros():
     filters = [{"field": "alumno_id", "values": [player_id]}]
     logros = get_items("logros", filters=filters)
     return jsonify({"message": "success", "items": logros}), 200
-
-
-@app.route('/', subdomain='admin')
-def admin_home():
-    return 'Admin page'
