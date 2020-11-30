@@ -4,8 +4,8 @@
 Sobre nosotros
 {% endblock %}
 {% block styles %}
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/timeline.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/about.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('.static', filename='styles/timeline.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('.static', filename='styles/about.css') }}">
 {% endblock %}
 
 {% block main %}
@@ -26,7 +26,7 @@ Sobre nosotros
         {% for hito in hitos %}
         <div class="cd-timeline__block">
             <div class="cd-timeline__img">
-                <img src="{{ url_for('static', filename='img/timeline-img/star.svg') }}" />
+                <img src="{{ url_for('.static', filename='img/timeline-img/star.svg') }}" />
             </div>
 
             <div class="cd-timeline__content text-component">
@@ -49,7 +49,7 @@ Sobre nosotros
     <div class="card-container">
         {% for persona in directiva %}
         <div class="card-item">
-            <img src="{{ url_for('static', filename=persona['foto']) }}">
+            <img src="{{ url_for('.static', filename=persona['foto']) }}">
             <div class="card-item-name">{{ persona["nombre"] }} <span class="bold">{{ persona["apellido"] }}</span>
             </div>
             <div class="card-item-role bold">{{ persona["cargo"] }}</div>
@@ -63,7 +63,7 @@ Sobre nosotros
     <div class="card-container">
         {% for persona in entrenadores %}
         <div class="card-item">
-            <img src="{{ url_for('static', filename=persona['foto']) }}">
+            <img src="{{ url_for('.static', filename=persona['foto']) }}">
             <div class="card-item-name">{{ persona["nombre"] }} <span class="bold">{{ persona["apellido"] }}</span>
             </div>
             <div class="card-item-description">{{ persona["descripcion"] }}</div>
@@ -71,5 +71,5 @@ Sobre nosotros
         {% endfor %}
     </div>
 </section>
-<script src="{{ url_for('static', filename='js/timeline.js') }}"></script>
+<script src="{{ url_for('.static', filename='js/timeline.js') }}"></script>
 {% endblock %}

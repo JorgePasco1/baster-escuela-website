@@ -36,7 +36,7 @@ def write_blob_to_file(data, type, file_name):
     """Converts blob into img file and returns the name of the file created"""
     file_name_utf8 = strip_accents(file_name)
     filename = f"img/photos/{type}/{file_name_utf8}.jpg"
-    with open(f".{url_for('static', filename=filename)}", "wb+") as file:
+    with open(f".{url_for('.static', filename=filename)}", "wb+") as file:
         file.write(data)
     return filename
 

@@ -4,8 +4,8 @@
 Nuestros Atletas
 {% endblock %}
 {% block styles %}
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/atletas.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/modal.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('.static', filename='styles/atletas.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('.static', filename='styles/modal.css') }}">
 {% endblock %}
 
 {% block main %}
@@ -18,7 +18,7 @@ Nuestros Atletas
     <div class="card-container">
         {% for atleta in atletas %}
         <div class="card-item">
-            <img class="clickable atelta-clickable-photo" src="{{ url_for('static', filename=atleta['foto']) }}"
+            <img class="clickable atelta-clickable-photo" src="{{ url_for('.static', filename=atleta['foto']) }}"
                 data-player_id="{{ atleta['id'] }}" data-micromodal-trigger="modal-{{ atleta['id'] }}">
             <div class="card-item-name">{{ atleta["nombre"] }} <span class="bold">{{ atleta["apellido"] }}</span>
             </div>
@@ -75,5 +75,5 @@ Nuestros Atletas
 {% endblock %}
 {% block scripts %}
 <script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
-<script src="{{ url_for('static', filename='js/atletas.js') }}"></script>
+<script src="{{ url_for('.static', filename='js/atletas.js') }}"></script>
 {% endblock %}

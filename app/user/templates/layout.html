@@ -7,7 +7,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Poppins:wght@600;700;800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/shared.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('.static', filename='styles/shared.css') }}">
     {% block styles %}{% endblock %}
     <title>{% block title %}{% endblock %}</title>
 </head>
@@ -16,7 +16,7 @@
     <nav>
         <div class="menu-container img-cont">
             <a href="/">
-                <img src="{{ url_for('static', filename='img/logo.png') }}">
+                <img src="{{ url_for('.static', filename='img/logo.png') }}">
             </a>
         </div>
         <div class="menu-container items-cont">
@@ -34,20 +34,20 @@
             <div class="siguenos">Síguenos</div>
             <div class="siguenos-content">
                 <a href="https://web.facebook.com/BasterEscuela/" target="_blank">
-                    <img src="{{ url_for('static', filename='img/icons/facebook.svg') }}" />
+                    <img src="{{ url_for('.static', filename='img/icons/facebook.svg') }}" />
                 </a>
                 <a href="https://instagram.com/basterescueladetenisdemesa?igshid=f8lkij4gqk22" target="_blank">
-                    <img src="{{ url_for('static', filename='img/icons/instagram.svg') }}" />
+                    <img src="{{ url_for('.static', filename='img/icons/instagram.svg') }}" />
                 </a>
             </div>
             <div class="contacto">Contacto</div>
             <div class="contacto-content">
                 <div class="contacto-el">
-                    <img src="{{ url_for('static', filename='img/icons/phone.svg') }}">
+                    <img src="{{ url_for('.static', filename='img/icons/phone.svg') }}">
                     <div>&nbsp966 010 607</div>
                 </div>
                 <div class="contacto-el">
-                    <img src="{{ url_for('static', filename='img/icons/message.svg') }}">
+                    <img src="{{ url_for('.static', filename='img/icons/message.svg') }}">
                     <div>&nbspbescuelatm@gmail.com</div>
                 </div>
             </div>
