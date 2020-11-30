@@ -34,7 +34,7 @@ Setup new host in your hosts file (You can take a look at this [article](https:/
 127.0.0.1	admin.basterescuela.test
 ```
 
-Once this is set, you will need to create a .flaskenv file in the root directory of the project, and add the following:
+Once this is set, you will need to create add the following to your .flaskenv file:
 
 ```bash
 HOST='basterescuela.test:5000'
