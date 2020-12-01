@@ -1,8 +1,9 @@
+import sqlite3
+import unicodedata
+
 from typing import List
 
 from flask import url_for
-import sqlite3
-import unicodedata
 
 
 # Define dictionary factory to be used for db results
@@ -32,17 +33,17 @@ def connect_to_db():
         print(Exception)
 
 
-def write_blob_to_file(data, type, file_name):
+def write_blob_to_file(data, _type, file_name):
     """Converts blob into img file and returns the name of the file created"""
     file_name_utf8 = strip_accents(file_name)
-    filename = f"img/photos/{type}/{file_name_utf8}.jpg"
+    filename = f"img/photos/{_type}/{file_name_utf8}.jpg"
     with open(f".{url_for('.static', filename=filename)}", "wb+") as file:
         file.write(data)
     return filename
 
 
 def create_filters_string(filters):
-    if len(filters) == 0:
+    if not filters:
         return ''
 
     final_filter_string = 'WHERE '
@@ -88,7 +89,7 @@ def group_results(results, group_by):
     return grouped_results
 
 
-def get_items(table, filters=[], group_by=None):
+def get_items(table, filters=None, group_by=None):
     """Get records of a table, and, in case of having a photo column, write blob to file and get filename"""
     result_array = []
     db = connect_to_db()

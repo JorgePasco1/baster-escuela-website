@@ -34,10 +34,18 @@ Setup new host in your hosts file (You can take a look at this [article](https:/
 127.0.0.1	admin.basterescuela.test
 ```
 
-Once this is set, you will need to create add the following to your .flaskenv file:
+Once this is set, you will need to create a `.env` file with the following:
 
 ```bash
 HOST='basterescuela.test:5000'
+```
+
+#### `SECRET_KEY`
+
+If you are to use the admin subdomain, you will need a secret key in order to Flask-Login to work. For that, you can generate a new key by running `python -c 'import os; print(os.urandom(16))'` in a terminal, and add it to your `.env` file, as follows:
+
+```bash
+SECRET_KEY=b'_5#y2L"F4Q8z\n\xec]/'
 ```
 
 ### Running app
