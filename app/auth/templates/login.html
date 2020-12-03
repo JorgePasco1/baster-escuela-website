@@ -10,17 +10,18 @@
 <body>
     <div class="column is-4 is-offset-4">
         <h3 class="title">Sign Up</h3>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div>
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+        {% endwith %}
         <div class="box">
-            <form method="POST" action="/signup">
+            <form method="POST" action="/login">
                 <div class="field">
                     <div class="control">
-                        <input class="input is-large" type="email" name="email" placeholder="Email" autofocus="">
-                    </div>
-                </div>
-
-                <div class="field">
-                    <div class="control">
-                        <input class="input is-large" type="text" name="name" placeholder="Name" autofocus="">
+                        <input class="input is-large" type="text" name="user" placeholder="User" autofocus="">
                     </div>
                 </div>
 
@@ -30,7 +31,7 @@
                     </div>
                 </div>
 
-                <button class="button is-block is-info is-large is-fullwidth">Sign Up</button>
+                <button class="button is-block is-info is-large is-fullwidth">Login</button>
             </form>
         </div>
     </div>

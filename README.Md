@@ -30,8 +30,9 @@ This app has a subdomain (admin), aimed at SuperUsers. If you want to test this 
 Setup new host in your hosts file (You can take a look at this [article](https://docs.rackspace.com/support/how-to/modify-your-hosts-file/) for some help with that). Example for this particular use case:
 
 ```bash
-127.0.0.1	basterescuela.test
-127.0.0.1	admin.basterescuela.test
+127.0.0.1	  basterescuela.test
+127.0.0.1	  admin.basterescuela.test
+127.0.0.1   auth.basterescuela.test
 ```
 
 Once this is set, you will need to create a `.env` file with the following:
