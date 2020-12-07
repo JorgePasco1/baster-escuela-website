@@ -1,17 +1,22 @@
+""" Entrypoint of public user Blueprint """
+
 from flask import Blueprint, render_template, request, jsonify
 
 from ..helpers import dict_factory, write_blob_to_file, get_items, format_logros
 
-user_blueprint = Blueprint('user', __name__, template_folder='templates', static_folder='static', static_url_path='/app/user/static/')
+user_blueprint = Blueprint('user', __name__, template_folder='templates',
+                           static_folder='static', static_url_path='/app/user/static/')
 
 
 @user_blueprint.route('/')
 def home():
+    """ Public Home """
     return render_template("index.html")
 
 
 @user_blueprint.route('/about')
 def about():
+    """ Renders About Page """
     name = 'about'
     directiva = get_items("miembros_directiva")
     entrenadores = get_items("entrenadores")
@@ -23,27 +28,31 @@ def about():
 
 @user_blueprint.route('/atletas')
 def atletas():
+    """ Renders page about the athletes """
     name = 'atletas'
-    atletas = get_items("atletas")
+    _atletas = get_items("atletas")
     logros = format_logros(get_items("logros", group_by="alumno_id"))
 
-    return render_template(f"{name}.html", active=name, atletas=atletas, logros=logros)
+    return render_template(f"{name}.html", active=name, atletas=_atletas, logros=logros)
 
 
 @user_blueprint.route('/abierto')
 def abierto():
+    """ Renders page about the school's tournament """
     name = 'abierto'
     return render_template(f"{name}.html", active=name)
 
 
 @user_blueprint.route('/productos')
 def productos():
+    """ Renders product listing page """
     name = 'productos'
     return render_template(f"{name}.html", active=name)
 
 
 @user_blueprint.route('/api/v1/logros')
 def send_logros():
+    """ Returns json with the achievements by athlete """
     player_id = request.args.get('player_id')
 
     if not player_id:

@@ -8,6 +8,7 @@ import os
 
 from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
 
 
 db = SQLAlchemy()
@@ -29,8 +30,20 @@ def create_app():
     db.init_app(app)
 
     app.register_blueprint(user_blueprint)
-    app.register_blueprint(admin_blueprint, subdomain='admin')
     app.register_blueprint(auth_blueprint, subdomain='auth')
-    # login_manager = start_login_manager(app)
+    app.register_blueprint(admin_blueprint, subdomain='admin')
+
+    login_manager = LoginManager()
+    login_manager.login_view = 'auth.login'
+    login_manager.login_message = 'Inicia sesión para entrar a esta página'
+    login_manager.init_app(app)
+
+    # pylint: disable=import-outside-toplevel
+    from .models import User
+
+    @login_manager.user_loader
+    # pylint: disable=unused-variable
+    def load_user(user_id):
+        return User.query.get(int(user_id))
 
     return app

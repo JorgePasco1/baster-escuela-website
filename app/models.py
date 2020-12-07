@@ -1,10 +1,12 @@
 """
 Database Models
 """
+from flask_login import UserMixin
 
 from app import db
 
-class User(db.Model):
+
+class User(UserMixin, db.Model):
     """ User Model """
     id = db.Column(db.Integer, primary_key=True)
     user = db.Column(db.String(100), unique=True)
