@@ -8,6 +8,9 @@ user_blueprint = Blueprint('user', __name__, template_folder='templates',
                            static_folder='static', static_url_path='/app/user/static/')
 
 
+PUBLIC_DATABASE = './baster_escuela.db'
+
+
 @user_blueprint.route('/')
 def home():
     """ Public Home """
@@ -18,9 +21,9 @@ def home():
 def about():
     """ Renders About Page """
     name = 'about'
-    directiva = get_items("miembros_directiva")
-    entrenadores = get_items("entrenadores")
-    hitos = get_items("hitos")
+    directiva = get_items("miembros_directiva", PUBLIC_DATABASE, create_img=True)
+    entrenadores = get_items("entrenadores", PUBLIC_DATABASE, create_img=True)
+    hitos = get_items("hitos", PUBLIC_DATABASE)
 
     return render_template(f"{name}.html", active=f"{name}", hitos=hitos,
                            directiva=directiva, entrenadores=entrenadores)
@@ -30,8 +33,8 @@ def about():
 def atletas():
     """ Renders page about the athletes """
     name = 'atletas'
-    _atletas = get_items("atletas")
-    logros = format_logros(get_items("logros", group_by="alumno_id"))
+    _atletas = get_items("atletas", PUBLIC_DATABASE, create_img=True)
+    logros = format_logros(get_items("logros", PUBLIC_DATABASE, group_by="alumno_id"))
 
     return render_template(f"{name}.html", active=name, atletas=_atletas, logros=logros)
 
@@ -59,5 +62,5 @@ def send_logros():
         return jsonify({"message": "missing player id"}), 400
 
     filters = [{"field": "alumno_id", "values": [player_id]}]
-    logros = get_items("logros", filters=filters)
+    logros = get_items("logros", PUBLIC_DATABASE, filters=filters)
     return jsonify({"message": "success", "items": logros}), 200

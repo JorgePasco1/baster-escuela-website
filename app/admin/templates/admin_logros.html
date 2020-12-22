@@ -1,0 +1,30 @@
+{% extends "admin_layout.html" %}
+
+{% block title %}
+Logros
+{% endblock %}
+
+{% block main %}
+<h1>Logros de alumnos</h1>
+
+<h2>Agregar logros</h2>
+<form action='/logros-alumnos' method="post">
+    {% for option_type in options.keys() %}
+    <label for="{{ option_type }}">Selecciona el {{ option_type }}</label>
+    <select name="{{ 'alumno_id' if option_type == 'alumno' else option_type }}" id="{{ option_type }}">
+        <option value="error">Selecciona Uno</option>
+        {% for option in options.get(option_type) %}
+        {% if option_type == 'alumno' %}
+        <option value="{{ option.get('id') }}"">{{ option.get('nombre') }} {{ option.get('apellido') }}</option>
+        {% else %}
+        <option value=" {{ option }}"">{{ option }}</option>
+        {% endif %}
+        {% endfor %}
+    </select>
+    <br><br>
+    {% endfor %}
+    <label for="year">Selecciona el año</label>
+    <input id="year" name="año" type="number" min="2010" max="2050" step="1"><br>
+    <button>Agregar logro</button>
+</form>
+{% endblock %}

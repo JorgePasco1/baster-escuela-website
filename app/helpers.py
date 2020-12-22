@@ -1,3 +1,5 @@
+""" Helper functions """
+
 import sqlite3
 import unicodedata
 
@@ -6,8 +8,8 @@ from typing import List
 from flask import url_for
 
 
-# Define dictionary factory to be used for db results
 def dict_factory(cursor, row):
+    """ Define dictionary factory to be used for db results """
     d = {}
     for i, col in enumerate(cursor.description):
         d[col[0]] = row[i]
@@ -15,6 +17,7 @@ def dict_factory(cursor, row):
 
 
 def strip_accents(text):
+    """ Transform latin text into utf-8 """
     text = unicodedata.normalize('NFD', text)\
         .encode('ascii', 'ignore')\
         .decode("utf-8")
@@ -22,9 +25,10 @@ def strip_accents(text):
     return str(text)
 
 
-def connect_to_db():
+def connect_to_db(db_name):
+    """ Reusable function to connect to the database """
     try:
-        conn = sqlite3.connect('./baster_escuela.db')
+        conn = sqlite3.connect(db_name)
         conn.row_factory = dict_factory  # Set dict factory
         db = conn.cursor()
         print("Connected to db")
@@ -43,6 +47,7 @@ def write_blob_to_file(data, _type, file_name):
 
 
 def create_filters_string(filters):
+    """ Create a sql filter string from a list of filters """
     if not filters:
         return ''
 
@@ -58,10 +63,19 @@ def create_filters_string(filters):
     return final_filter_string
 
 
-def transform_result_value(table, el, key, value):
+def create_fields_string(fields):
+    """ Create a sql fields string from a list of fields """
+    if not fields:
+        return "*"
+
+    return ",".join(fields)
+
+
+def transform_result_value(table, el, key, value, create_img):
+    """ Get the results of the query ready to be returned """
     if key == "id":
         return str(value)
-    if key == "foto":
+    if key == "foto" and create_img:
         if value:
             nombre = el['nombre'].replace(' ', '-')
             apellido = f"{el['apellido'].replace(' ', '-')}"
@@ -80,7 +94,8 @@ def transform_result_value(table, el, key, value):
 
 
 def group_results(results, group_by):
-    keys = set([el.get(group_by) for el in results])
+    """ Grou results by an specified key """
+    keys = {el.get(group_by) for el in results}
     grouped_results = {}
     for key in keys:
         results_by_key = [el for el in results if el.get(group_by) == key]
@@ -89,19 +104,22 @@ def group_results(results, group_by):
     return grouped_results
 
 
-def get_items(table, filters=None, group_by=None):
+def get_items(table, db_name, filters=None, group_by=None, create_img=False, fields=None):
     """Get records of a table, and, in case of having a photo column, write blob to file and get filename"""
     result_array = []
-    db = connect_to_db()
+    db = connect_to_db(db_name)
 
+    fields_string = create_fields_string(fields)
     filter_string = create_filters_string(filters)
 
-    results = db.execute(f"SELECT * FROM {table} {filter_string}").fetchall()
+    results = db.execute(
+        f"SELECT {fields_string} FROM {table} {filter_string}").fetchall()
 
     for el in results:
         new_item = {}
         for key, value in el.items():
-            new_item[key] = transform_result_value(table, el, key, value)
+            new_item[key] = transform_result_value(
+                table, el, key, value, create_img)
 
         result_array.append(new_item)
 
@@ -111,13 +129,34 @@ def get_items(table, filters=None, group_by=None):
     return result_array
 
 
+# TODO: validate fields
+def add_new_item_to_db(table, db_name, values_dict):
+    """ Insert a new record to a db table """
+    database = connect_to_db(db_name)
+
+    fields_string = ','.join(values_dict.keys())
+    values_placeholder = ('?,' * len(values_dict))[:-1]
+    values = tuple([value.strip() for value in values_dict.values()])
+
+    print("fields_string", fields_string)
+    print("values_placeholder", values_placeholder)
+    print("values", values)
+
+    results = database.execute(f''' INSERT INTO {table}({fields_string})
+              VALUES({values_placeholder}) ''', tuple(values_dict.values()))
+
+    print("results", results)
+
+
 def month_number_to_text(month_number: int) -> str:
+    """ get month text from number """
     months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
               'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
     return months[month_number - 1]
 
 
 def format_logros(logros: List[dict]) -> List[dict]:
+    """ Format logros """
     logros_formatted = logros
 
     # Order by year
