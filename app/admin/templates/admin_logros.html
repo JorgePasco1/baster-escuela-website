@@ -3,11 +3,15 @@
 {% block title %}
 Logros
 {% endblock %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('.static', filename='styles/shared.css') }}">
+{% endblock %}
 
 {% block main %}
 <h1>Logros de alumnos</h1>
 
 <h2>Agregar logros</h2>
+<a href="/home">Volver al inicio</a>
 <form action='/logros-alumnos' method="post">
     {% for option_type in options.keys() %}
     <label for="{{ option_type }}">Selecciona el {{ option_type }}</label>

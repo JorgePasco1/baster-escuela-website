@@ -1,5 +1,7 @@
 """ Helper functions """
 
+import os
+
 import sqlite3
 import unicodedata
 
@@ -10,6 +12,7 @@ from flask import url_for
 
 def dict_factory(cursor, row):
     """ Define dictionary factory to be used for db results """
+    # pylint: disable=invalid-name
     d = {}
     for i, col in enumerate(cursor.description):
         d[col[0]] = row[i]
@@ -30,9 +33,9 @@ def connect_to_db(db_name):
     try:
         conn = sqlite3.connect(db_name)
         conn.row_factory = dict_factory  # Set dict factory
-        db = conn.cursor()
+        database = conn.cursor()
         print("Connected to db")
-        return db
+        return database, conn
     except Exception:
         print(Exception)
 
@@ -71,6 +74,7 @@ def create_fields_string(fields):
     return ",".join(fields)
 
 
+# pylint: disable=invalid-name
 def transform_result_value(table, el, key, value, create_img):
     """ Get the results of the query ready to be returned """
     if key == "id":
@@ -88,7 +92,8 @@ def transform_result_value(table, el, key, value, create_img):
     if key == "mes":
         return month_number_to_text(value)
     if key == "puesto":
-        return "Oro" if value == 1 else "Plata" if value == 2 else "Bronce" if value == 3 else None if not value else value
+        return "Oro" if value == 1 else "Plata" if value == 2 else "Bronce" if value == 3 \
+            else None if not value else value
 
     return value
 
@@ -104,22 +109,40 @@ def group_results(results, group_by):
     return grouped_results
 
 
+def transform_values(values_dict):
+    """ Transform values from db to be sent to fe """
+    result = {}
+    for k, v in values_dict.items():
+        v = v.strip()
+        if k == 'puesto':
+            mapper = {
+                'oro': 1,
+                'plata': 2,
+                'bronce': 3
+            }
+            result[k] = mapper.get(v.lower()) or v
+        else:
+            result[k] = v
+    return result
+
+
 def get_items(table, db_name, filters=None, group_by=None, create_img=False, fields=None):
-    """Get records of a table, and, in case of having a photo column, write blob to file and get filename"""
+    """Get records of a table, and, in case of having a photo column, write blob to file and
+    get filename"""
     result_array = []
-    db = connect_to_db(db_name)
+    database, _ = connect_to_db(db_name)
 
     fields_string = create_fields_string(fields)
     filter_string = create_filters_string(filters)
 
-    results = db.execute(
+    results = database.execute(
         f"SELECT {fields_string} FROM {table} {filter_string}").fetchall()
 
-    for el in results:
+    for element in results:
         new_item = {}
-        for key, value in el.items():
+        for key, value in element.items():
             new_item[key] = transform_result_value(
-                table, el, key, value, create_img)
+                table, element, key, value, create_img)
 
         result_array.append(new_item)
 
@@ -129,23 +152,21 @@ def get_items(table, db_name, filters=None, group_by=None, create_img=False, fie
     return result_array
 
 
-# TODO: validate fields
+# TODO: validate fields, return
 def add_new_item_to_db(table, db_name, values_dict):
     """ Insert a new record to a db table """
-    database = connect_to_db(db_name)
+    database, conn = connect_to_db(db_name)
 
-    fields_string = ','.join(values_dict.keys())
-    values_placeholder = ('?,' * len(values_dict))[:-1]
-    values = tuple([value.strip() for value in values_dict.values()])
+    transformed_values = transform_values(values_dict)
 
-    print("fields_string", fields_string)
-    print("values_placeholder", values_placeholder)
-    print("values", values)
+    fields_string = ','.join(transformed_values.keys())
+    values_placeholder = ('?,' * len(transformed_values))[:-1]
+    values = tuple(transformed_values.values())
 
     results = database.execute(f''' INSERT INTO {table}({fields_string})
-              VALUES({values_placeholder}) ''', tuple(values_dict.values()))
+              VALUES({values_placeholder}) ''', values)
 
-    print("results", results)
+    conn.commit()
 
 
 def month_number_to_text(month_number: int) -> str:
@@ -165,3 +186,20 @@ def format_logros(logros: List[dict]) -> List[dict]:
             _logros, key=lambda x: x['año'], reverse=True)
 
     return logros_formatted
+
+
+def check_allowed_file(filename):
+    """ Check if file has an allowed format """
+    allowed_extensions = ['png', 'jpeg', 'jpg', 'heic']
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_extensions
+
+
+def save_file_to_multiple_directories(_file, filename, directories):
+    """ Save a file in multiple directories """
+    for directory in directories:
+        if not os.path.isdir(directory):
+            os.mkdir(directory)
+
+        filepath = os.path.join(directory, filename)
+        _file.save(filepath)
+        _file.stream.seek(0)

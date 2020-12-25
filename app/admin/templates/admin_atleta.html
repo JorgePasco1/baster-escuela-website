@@ -1,0 +1,34 @@
+{% extends "admin_layout.html" %}
+
+{% block title %}
+Alumnos
+{% endblock %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('.static', filename='styles/shared.css') }}">
+{% endblock %}
+
+{% block main %}
+<h1>Alumnos</h1>
+
+<h2>Administrar Alumnos</h2>
+<a href="/alumnos">Volver a alumnos</a>
+
+<section class="atletas">
+    <div class="card-container">
+        <div class="card-item">
+            <form action='/alumnos/{{ atleta["id"] }}' method="post" enctype="multipart/form-data">
+                <img src="{{ url_for('.static', filename=atleta['foto']) }}">
+                <label for="file">Cambiar foto</label>
+                <input type="file" name="file"><br>
+                <label for="nombre">Nombre</label>
+                <input name="nombre" type="text" value="{{ atleta["nombre"] }}"><br>
+                <label for="apellido">Apellido</label>
+                <input name="apellido" type="text" value="{{ atleta["apellido"] }}"><br>
+
+                <button>Guardar</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
