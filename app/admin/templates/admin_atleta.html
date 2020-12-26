@@ -31,6 +31,14 @@ Alumnos
             </form>
         </div>
     </div>
-</section>
 
+    {% if atleta %}
+    <button id="deleteButton" style="color:red" data-alumno-id="{{atleta['id']}}">Eliminar este alumno</button>
+    {% endif %}
+</section>
+{% endblock %}
+{% block scripts %}
+{% if atleta %}
+<script src="{{ url_for('.static', filename='js/delete.js') }}"></script>
+{% endif %}
 {% endblock %}

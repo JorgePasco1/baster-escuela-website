@@ -3,7 +3,7 @@
 import sqlite3
 
 from app.common.helpers import group_results
-from app.common.mappers import transform_result_value, transform_values
+from app.common.formatters import transform_result_value, transform_values
 
 
 def dict_factory(cursor, row):
@@ -76,9 +76,8 @@ def get_items(table, db_name, filters=None, group_by=None, fields=None):
 
     return result_array
 
-# TODO: validate fields, return
 
-
+# TODO: validate fields
 def add_new_item_to_db(table, db_name, values_dict):
     """ Insert a new record to a db table """
     database, conn = connect_to_db(db_name)
@@ -110,11 +109,21 @@ def update_record_in_db(table, db_name, values_dict, item_identifier):
     filter_string = ' AND '.join(
         [f"{k}={v}" for k, v in item_identifier.items()])
 
-    print("transformation_string", transformation_string)
-    print("filter_string", filter_string)
-
     database.execute(f''' UPDATE {table}
                 SET {transformation_string}
                 WHERE {filter_string}''')
 
+    conn.commit()
+
+
+def delete_record_in_db(table, db_name, item_identifier):
+    """ Deletes an existing record in a db table """
+    if not item_identifier:
+        raise Exception('The request to delete item need an item identifier')
+
+    database, conn = connect_to_db(db_name)
+    filter_string = ' AND '.join(
+        [f"{k}={v}" for k, v in item_identifier.items()])
+
+    database.execute(f''' DELETE FROM {table} WHERE {filter_string} ''')
     conn.commit()

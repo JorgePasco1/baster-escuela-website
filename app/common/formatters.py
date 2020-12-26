@@ -1,3 +1,5 @@
+""" Functions related to formatting data """
+
 from app.common.helpers import month_number_to_text
 
 

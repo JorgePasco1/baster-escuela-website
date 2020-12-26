@@ -4,9 +4,10 @@ Admin Blueprint
 import os
 from werkzeug.utils import secure_filename
 
-from flask import Blueprint, render_template, redirect, url_for, request
+from flask import Blueprint, render_template, redirect, url_for, request, jsonify
 from flask_login import login_required, current_user
-from app.common.database import get_items, add_new_item_to_db, update_record_in_db
+from app.common.database import get_items, add_new_item_to_db, update_record_in_db, \
+    delete_record_in_db
 from app.common.file_system import check_allowed_file, save_file_to_multiple_directories
 
 admin_blueprint = Blueprint('admin', __name__, template_folder='templates',
@@ -63,7 +64,7 @@ def admin_players_screen():
     return render_template('admin_alumnos.html', atletas=alumnos)
 
 
-@admin_blueprint.route('/alumnos/<_id>', methods=['GET', 'POST'])
+@admin_blueprint.route('/alumnos/<_id>', methods=['GET', 'POST', 'DELETE'])
 @login_required
 def admin_athlete_screen(_id):
     """ Screen for players' administration """
@@ -90,10 +91,16 @@ def admin_athlete_screen(_id):
         update_record_in_db('atletas', PUBLIC_DATABASE,
                             alumno_info, {'id': _id})
 
+        return '', 200
+
+    if request.method == 'DELETE':
+        delete_record_in_db('atletas', PUBLIC_DATABASE, {'id': _id})
+        return jsonify({"redirect_to": "/alumnos"}), 200
+
     try:
         alumno = next(iter(get_items("atletas", PUBLIC_DATABASE,
                                      filters=[{'field': 'id', 'values': [_id]}])))
-    except:
+    except Exception:
         return f"Alumnno con id {_id} no encontrado, <a href='/alumnos'>regresar</a>"
 
     return render_template('admin_atleta.html', atleta=alumno)
@@ -129,5 +136,3 @@ def admin_new_athlete_screen():
                                 info, {'id': inserted_row_id})
 
     return render_template('admin_atleta.html')
-
-# TODO: Elimianar alumno

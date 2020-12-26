@@ -1,8 +1,4 @@
 """ Helper functions """
-
-import os
-
-
 import unicodedata
 
 from typing import List
