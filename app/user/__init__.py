@@ -2,7 +2,7 @@
 
 from flask import Blueprint, render_template, request, jsonify
 
-from ..helpers import dict_factory, write_blob_to_file, get_items, format_logros
+from ..helpers import dict_factory, get_items, format_logros
 
 user_blueprint = Blueprint('user', __name__, template_folder='templates',
                            static_folder='static', static_url_path='/app/user/static/')
@@ -21,8 +21,8 @@ def home():
 def about():
     """ Renders About Page """
     name = 'about'
-    directiva = get_items("miembros_directiva", PUBLIC_DATABASE, create_img=True)
-    entrenadores = get_items("entrenadores", PUBLIC_DATABASE, create_img=True)
+    directiva = get_items("miembros_directiva", PUBLIC_DATABASE)
+    entrenadores = get_items("entrenadores", PUBLIC_DATABASE)
     hitos = get_items("hitos", PUBLIC_DATABASE)
 
     return render_template(f"{name}.html", active=f"{name}", hitos=hitos,
@@ -33,7 +33,7 @@ def about():
 def atletas():
     """ Renders page about the athletes """
     name = 'atletas'
-    _atletas = get_items("atletas", PUBLIC_DATABASE, create_img=True)
+    _atletas = get_items("atletas", PUBLIC_DATABASE)
     logros = format_logros(get_items("logros", PUBLIC_DATABASE, group_by="alumno_id"))
 
     return render_template(f"{name}.html", active=name, atletas=_atletas, logros=logros)

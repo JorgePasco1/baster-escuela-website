@@ -17,7 +17,7 @@ Alumnos
     <div class="card-container">
         <div class="card-item">
             <form action='/alumnos/{{ atleta["id"] }}' method="post" enctype="multipart/form-data">
-                <img src="{{ url_for('.static', filename=atleta['foto']) }}">
+                <img src="{{ url_for('.static', filename=(atleta['foto'] or img/logo.png)) }}">
                 <label for="file">Cambiar foto</label>
                 <input type="file" name="file"><br>
                 <label for="nombre">Nombre</label>

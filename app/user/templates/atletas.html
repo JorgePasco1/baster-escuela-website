@@ -18,7 +18,7 @@ Nuestros Atletas
     <div class="card-container">
         {% for atleta in atletas %}
         <div class="card-item">
-            <img class="clickable atelta-clickable-photo" src="{{ url_for('.static', filename=atleta['foto']) }}"
+            <img class="clickable atelta-clickable-photo" src="{{ url_for('.static', filename=(atleta['foto']) or 'img/logo.png')}}"
                 data-player_id="{{ atleta['id'] }}" data-micromodal-trigger="modal-{{ atleta['id'] }}">
             <div class="card-item-name">{{ atleta["nombre"] }} <span class="bold">{{ atleta["apellido"] }}</span>
             </div>

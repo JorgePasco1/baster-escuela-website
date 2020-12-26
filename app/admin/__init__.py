@@ -6,7 +6,8 @@ from werkzeug.utils import secure_filename
 
 from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import login_required, current_user
-from app.helpers import get_items, add_new_item_to_db, check_allowed_file, save_file_to_multiple_directories
+from app.helpers import get_items, add_new_item_to_db, check_allowed_file, \
+    save_file_to_multiple_directories
 
 admin_blueprint = Blueprint('admin', __name__, template_folder='templates',
                             static_folder='static', static_url_path='/app/admin/static')
@@ -74,6 +75,7 @@ def admin_athlete_screen(_id):
         _file = request.files['file']
         alumno_info = request.form
 
+        filename = None
         if _file and check_allowed_file(_file.filename):
             nombre = alumno_info['nombre'].replace(' ', '-')
             apellido = f"{alumno_info['apellido'].replace(' ', '-')}"
@@ -82,7 +84,6 @@ def admin_athlete_screen(_id):
 
             save_file_to_multiple_directories(
                 _file, filename, [public_upload_folder, admin_upload_folder])
-
 
     alumno = next(iter(get_items("atletas", PUBLIC_DATABASE,
                                  create_img=True, filters=[{'field': 'id', 'values': _id}])))

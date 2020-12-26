@@ -74,21 +74,10 @@ def create_fields_string(fields):
     return ",".join(fields)
 
 
-# pylint: disable=invalid-name
-def transform_result_value(table, el, key, value, create_img):
+def transform_result_value(key, value):
     """ Get the results of the query ready to be returned """
     if key == "id":
         return str(value)
-    if key == "foto" and create_img:
-        if value:
-            nombre = el['nombre'].replace(' ', '-')
-            apellido = f"{el['apellido'].replace(' ', '-')}"
-            file_name = f"{el['id']}-{nombre}-{apellido}"
-            complete_path = write_blob_to_file(
-                value, table, file_name)
-            return complete_path
-
-        return "img/logo.png"
     if key == "mes":
         return month_number_to_text(value)
     if key == "puesto":
@@ -112,21 +101,21 @@ def group_results(results, group_by):
 def transform_values(values_dict):
     """ Transform values from db to be sent to fe """
     result = {}
-    for k, v in values_dict.items():
-        v = v.strip()
-        if k == 'puesto':
+    for key, value in values_dict.items():
+        value = value.strip()
+        if key == 'puesto':
             mapper = {
                 'oro': 1,
                 'plata': 2,
                 'bronce': 3
             }
-            result[k] = mapper.get(v.lower()) or v
+            result[key] = mapper.get(value.lower()) or value
         else:
-            result[k] = v
+            result[key] = value
     return result
 
 
-def get_items(table, db_name, filters=None, group_by=None, create_img=False, fields=None):
+def get_items(table, db_name, filters=None, group_by=None, fields=None):
     """Get records of a table, and, in case of having a photo column, write blob to file and
     get filename"""
     result_array = []
@@ -141,8 +130,7 @@ def get_items(table, db_name, filters=None, group_by=None, create_img=False, fie
     for element in results:
         new_item = {}
         for key, value in element.items():
-            new_item[key] = transform_result_value(
-                table, element, key, value, create_img)
+            new_item[key] = transform_result_value(key, value)
 
         result_array.append(new_item)
 
@@ -163,7 +151,7 @@ def add_new_item_to_db(table, db_name, values_dict):
     values_placeholder = ('?,' * len(transformed_values))[:-1]
     values = tuple(transformed_values.values())
 
-    results = database.execute(f''' INSERT INTO {table}({fields_string})
+    database.execute(f''' INSERT INTO {table}({fields_string})
               VALUES({values_placeholder}) ''', values)
 
     conn.commit()
