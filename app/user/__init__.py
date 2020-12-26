@@ -2,7 +2,8 @@
 
 from flask import Blueprint, render_template, request, jsonify
 
-from ..helpers import dict_factory, get_items, format_logros
+from app.common.database import get_items
+from app.common.helpers import format_logros
 
 user_blueprint = Blueprint('user', __name__, template_folder='templates',
                            static_folder='static', static_url_path='/app/user/static/')

@@ -16,14 +16,16 @@ Alumnos
 <section class="atletas">
     <div class="card-container">
         <div class="card-item">
-            <form action='/alumnos/{{ atleta["id"] }}' method="post" enctype="multipart/form-data">
-                <img src="{{ url_for('.static', filename=(atleta['foto'] or img/logo.png)) }}">
-                <label for="file">Cambiar foto</label>
+            <form action='/alumnos/{{ atleta["id"] if atleta else "nuevo"}}' method="post" enctype="multipart/form-data">
+                {% if atleta %}
+                <img src="{{ url_for('.static', filename=(atleta['foto'] or 'img/logo.png')) }}">
+                {% endif %}
+                <label for="file">Foto en formato 'png', 'jpeg', 'jpg' o 'heic'</label>
                 <input type="file" name="file"><br>
                 <label for="nombre">Nombre</label>
-                <input name="nombre" type="text" value="{{ atleta["nombre"] }}"><br>
+                <input name="nombre" type="text" value="{{ atleta.get('nombre') if atleta else ''}}"><br>
                 <label for="apellido">Apellido</label>
-                <input name="apellido" type="text" value="{{ atleta["apellido"] }}"><br>
+                <input name="apellido" type="text" value="{{ atleta.get('apellido') if atleta else '' }}"><br>
 
                 <button>Guardar</button>
             </form>

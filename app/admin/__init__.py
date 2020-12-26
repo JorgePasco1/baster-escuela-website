@@ -6,14 +6,16 @@ from werkzeug.utils import secure_filename
 
 from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import login_required, current_user
-from app.helpers import get_items, add_new_item_to_db, check_allowed_file, \
-    save_file_to_multiple_directories
+from app.common.database import get_items, add_new_item_to_db, update_record_in_db
+from app.common.file_system import check_allowed_file, save_file_to_multiple_directories
 
 admin_blueprint = Blueprint('admin', __name__, template_folder='templates',
                             static_folder='static', static_url_path='/app/admin/static')
 
 
 PUBLIC_DATABASE = './baster_escuela.db'
+BASE_PUBLIC_STATIC_URL = 'app/user/static/'
+BASE_ADMIN_STATIC_URL = 'app/admin/static/'
 
 
 @admin_blueprint.route('/')
@@ -56,7 +58,7 @@ def admin_logros_screen():
 @login_required
 def admin_players_screen():
     """ Screen for players' administration """
-    alumnos = get_items("atletas", PUBLIC_DATABASE, create_img=True)
+    alumnos = get_items("atletas", PUBLIC_DATABASE)
 
     return render_template('admin_alumnos.html', atletas=alumnos)
 
@@ -67,25 +69,65 @@ def admin_athlete_screen(_id):
     """ Screen for players' administration """
 
     if request.method == 'POST':
-        public_upload_folder = os.environ.get(
-            'PUBLIC_ALUMNOS_UPLOAD_FOLDER') or 'app/user/static/img/photos/'
-        admin_upload_folder = os.environ.get(
-            'ADMIN_ALUMNOS_UPLOAD_FOLDER') or 'app/admin/static/img/photos/'
+        public_upload_folder = BASE_PUBLIC_STATIC_URL + (os.environ.get(
+            'ALUMNOS_UPLOAD_FOLDER') or 'img/photos/')
+        admin_upload_folder = BASE_ADMIN_STATIC_URL + (os.environ.get(
+            'ALUMNOS_UPLOAD_FOLDER') or 'img/photos/')
 
         _file = request.files['file']
-        alumno_info = request.form
-
+        alumno_info = dict(request.form)
         filename = None
+
         if _file and check_allowed_file(_file.filename):
-            nombre = alumno_info['nombre'].replace(' ', '-')
-            apellido = f"{alumno_info['apellido'].replace(' ', '-')}"
             extension = _file.filename.rsplit('.', 1)[1].lower()
-            filename = f"{_id}-{nombre}-{apellido}1.{extension}"
+            filename = f"atleta-{_id}.{extension}"
 
             save_file_to_multiple_directories(
                 _file, filename, [public_upload_folder, admin_upload_folder])
 
-    alumno = next(iter(get_items("atletas", PUBLIC_DATABASE,
-                                 create_img=True, filters=[{'field': 'id', 'values': _id}])))
+            alumno_info['foto'] = f"{public_upload_folder.split('static/')[1]}/{filename}"
+
+        update_record_in_db('atletas', PUBLIC_DATABASE,
+                            alumno_info, {'id': _id})
+
+    try:
+        alumno = next(iter(get_items("atletas", PUBLIC_DATABASE,
+                                     filters=[{'field': 'id', 'values': [_id]}])))
+    except:
+        return f"Alumnno con id {_id} no encontrado, <a href='/alumnos'>regresar</a>"
 
     return render_template('admin_atleta.html', atleta=alumno)
+
+
+@admin_blueprint.route('/alumnos/nuevo', methods=['GET', 'POST'])
+@login_required
+def admin_new_athlete_screen():
+    """ Screen to add new player """
+    if request.method == 'POST':
+        inserted_row_id = add_new_item_to_db(
+            'atletas', PUBLIC_DATABASE, request.form)
+
+        public_upload_folder = BASE_PUBLIC_STATIC_URL + (os.environ.get(
+            'ALUMNOS_UPLOAD_FOLDER') or 'img/photos/')
+        admin_upload_folder = BASE_ADMIN_STATIC_URL + (os.environ.get(
+            'ALUMNOS_UPLOAD_FOLDER') or 'img/photos/')
+
+        _file = request.files['file']
+        filename = None
+
+        if _file and check_allowed_file(_file.filename):
+            extension = _file.filename.rsplit('.', 1)[1].lower()
+            filename = f"atleta-{inserted_row_id}.{extension}"
+
+            save_file_to_multiple_directories(
+                _file, filename, [public_upload_folder, admin_upload_folder])
+
+            info = {
+                "foto": f"{public_upload_folder.split('static/')[1]}/{filename}"}
+
+            update_record_in_db('atletas', PUBLIC_DATABASE,
+                                info, {'id': inserted_row_id})
+
+    return render_template('admin_atleta.html')
+
+# TODO: Elimianar alumno
