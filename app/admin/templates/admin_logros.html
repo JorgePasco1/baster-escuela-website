@@ -8,17 +8,17 @@ Logros
 {% endblock %}
 
 {% block main %}
-<h1>Logros de alumnos</h1>
+<h1>Logros de atletas</h1>
 
 <h2>Agregar logros</h2>
 <a href="/home">Volver al inicio</a>
-<form action='/logros-alumnos' method="post">
+<form action='/logros-atletas' method="post">
     {% for option_type in options.keys() %}
     <label for="{{ option_type }}">Selecciona el {{ option_type }}</label>
-    <select name="{{ 'alumno_id' if option_type == 'alumno' else option_type }}" id="{{ option_type }}">
+    <select name="{{ 'atleta_id' if option_type == 'atleta' else option_type }}" id="{{ option_type }}">
         <option value="error">Selecciona Uno</option>
         {% for option in options.get(option_type) %}
-        {% if option_type == 'alumno' %}
+        {% if option_type == 'atleta' %}
         <option value="{{ option.get('id') }}"">{{ option.get('nombre') }} {{ option.get('apellido') }}</option>
         {% else %}
         <option value=" {{ option }}"">{{ option }}</option>

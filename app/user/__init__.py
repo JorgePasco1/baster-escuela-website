@@ -35,7 +35,7 @@ def atletas():
     """ Renders page about the athletes """
     name = 'atletas'
     _atletas = get_items("atletas", PUBLIC_DATABASE)
-    logros = format_logros(get_items("logros", PUBLIC_DATABASE, group_by="alumno_id"))
+    logros = format_logros(get_items("logros", PUBLIC_DATABASE, group_by="atleta_id"))
 
     return render_template(f"{name}.html", active=name, atletas=_atletas, logros=logros)
 
@@ -62,6 +62,6 @@ def send_logros():
     if not player_id:
         return jsonify({"message": "missing player id"}), 400
 
-    filters = [{"field": "alumno_id", "values": [player_id]}]
+    filters = [{"field": "atleta_id", "values": [player_id]}]
     logros = get_items("logros", PUBLIC_DATABASE, filters=filters)
     return jsonify({"message": "success", "items": logros}), 200

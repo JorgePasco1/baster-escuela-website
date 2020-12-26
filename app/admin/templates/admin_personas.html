@@ -1,0 +1,29 @@
+{% extends "admin_layout.html" %}
+
+{% block title %}
+Atletas
+{% endblock %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('.static', filename='styles/shared.css') }}">
+{% endblock %}
+
+{% block main %}
+<h1>Atletas</h1>
+
+<h2>Administrar Atletas</h2><br>
+<a href="/{{ type }}/nuevo">Agregar nuevo</a><br>
+<a href="/home">Volver al inicio</a><br>
+
+<section class="atletas">
+    <div class="card-container">
+        {% for persona in personas %}
+        <div class="card-item">
+            <img class="clickable atelta-clickable-photo" src="{{ url_for('.static', filename=(persona.get('foto') or 'img/logo.png')) }}"
+                onclick="location.href='/{{ type }}/{{ persona['id'] }}'">
+            <div class="card-item-name">{{ persona["nombre"] }} <span class="bold">{{ persona["apellido"] }}</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

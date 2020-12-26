@@ -8,15 +8,11 @@ from flask import Blueprint, render_template, redirect, url_for, request, jsonif
 from flask_login import login_required, current_user
 from app.common.database import get_items, add_new_item_to_db, update_record_in_db, \
     delete_record_in_db
-from app.common.file_system import check_allowed_file, save_file_to_multiple_directories
+from app.admin.crud_factory import update_one, delete_one, add_one
+from app.common.constants import PUBLIC_DATABASE
 
 admin_blueprint = Blueprint('admin', __name__, template_folder='templates',
                             static_folder='static', static_url_path='/app/admin/static')
-
-
-PUBLIC_DATABASE = './baster_escuela.db'
-BASE_PUBLIC_STATIC_URL = 'app/user/static/'
-BASE_ADMIN_STATIC_URL = 'app/admin/static/'
 
 
 @admin_blueprint.route('/')
@@ -32,7 +28,7 @@ def admin_index():
     return render_template('admin_home.html', user_name=current_user.name)
 
 
-@admin_blueprint.route('/logros-alumnos', methods=['GET', 'POST'])
+@admin_blueprint.route('/logros-atletas', methods=['GET', 'POST'])
 @login_required
 def admin_logros_screen():
     """ Screen for players' achievements administration and route for new achievement submision"""
@@ -41,10 +37,10 @@ def admin_logros_screen():
         add_new_item_to_db('logros', PUBLIC_DATABASE, request.form)
 
     logros = get_items("logros", PUBLIC_DATABASE)
-    alumnos = get_items("atletas", PUBLIC_DATABASE, fields=[
+    atletas = get_items("atletas", PUBLIC_DATABASE, fields=[
                         'id', 'nombre', 'apellido'])
     options = {
-        "alumno": alumnos,
+        "atleta": atletas,
         "tipo": {element.get('tipo') for element in logros if element.get('tipo')},
         "nivel_torneo": {element.get('nivel_torneo') for element in logros if element.get(
             'nivel_torneo')},
@@ -55,84 +51,109 @@ def admin_logros_screen():
     return render_template('admin_logros.html', options=options)
 
 
-@admin_blueprint.route('/alumnos')
+# ATLETAS ROUTES
+@admin_blueprint.route('/atletas')
 @login_required
 def admin_players_screen():
     """ Screen for players' administration """
-    alumnos = get_items("atletas", PUBLIC_DATABASE)
+    atletas = get_items("atletas", PUBLIC_DATABASE)
 
-    return render_template('admin_alumnos.html', atletas=alumnos)
+    return render_template('admin_personas.html', personas=atletas, type='atletas')
 
 
-@admin_blueprint.route('/alumnos/<_id>', methods=['GET', 'POST', 'DELETE'])
+@admin_blueprint.route('/atletas/<_id>', methods=['GET', 'POST', 'DELETE'])
 @login_required
 def admin_athlete_screen(_id):
     """ Screen for players' administration """
+    _type = 'atletas'
 
     if request.method == 'POST':
-        public_upload_folder = BASE_PUBLIC_STATIC_URL + (os.environ.get(
-            'ALUMNOS_UPLOAD_FOLDER') or 'img/photos/')
-        admin_upload_folder = BASE_ADMIN_STATIC_URL + (os.environ.get(
-            'ALUMNOS_UPLOAD_FOLDER') or 'img/photos/')
-
-        _file = request.files['file']
-        alumno_info = dict(request.form)
-        filename = None
-
-        if _file and check_allowed_file(_file.filename):
-            extension = _file.filename.rsplit('.', 1)[1].lower()
-            filename = f"atleta-{_id}.{extension}"
-
-            save_file_to_multiple_directories(
-                _file, filename, [public_upload_folder, admin_upload_folder])
-
-            alumno_info['foto'] = f"{public_upload_folder.split('static/')[1]}/{filename}"
-
-        update_record_in_db('atletas', PUBLIC_DATABASE,
-                            alumno_info, {'id': _id})
-
+        updated = update_one(PUBLIC_DATABASE, _type, request, _id)
+        if not updated:
+            return jsonify({'message': 'Something went wrong'}), 500
         return '', 200
 
     if request.method == 'DELETE':
-        delete_record_in_db('atletas', PUBLIC_DATABASE, {'id': _id})
-        return jsonify({"redirect_to": "/alumnos"}), 200
+        deleted = delete_one(PUBLIC_DATABASE, _type, _id)
+
+        if not deleted:
+            return jsonify({'message': 'Something went wrong'}), 500
+
+        return jsonify({"redirect_to": f"/{_type}"}), 200
 
     try:
-        alumno = next(iter(get_items("atletas", PUBLIC_DATABASE,
+        atleta = next(iter(get_items("atletas", PUBLIC_DATABASE,
                                      filters=[{'field': 'id', 'values': [_id]}])))
     except Exception:
-        return f"Alumnno con id {_id} no encontrado, <a href='/alumnos'>regresar</a>"
+        return f"Alumnno con id {_id} no encontrado, <a href='/atletas'>regresar</a>"
 
-    return render_template('admin_atleta.html', atleta=alumno)
+    print(atleta)
+    return render_template('admin_persona.html', persona=atleta, type=_type)
 
 
-@admin_blueprint.route('/alumnos/nuevo', methods=['GET', 'POST'])
+@admin_blueprint.route('/atletas/nuevo', methods=['GET', 'POST'])
 @login_required
 def admin_new_athlete_screen():
     """ Screen to add new player """
+
+    _type = 'atletas'
     if request.method == 'POST':
-        inserted_row_id = add_new_item_to_db(
-            'atletas', PUBLIC_DATABASE, request.form)
+        added = add_one(PUBLIC_DATABASE, _type, request)
+        if not added:
+            return jsonify({'message': 'Something went wrong'}), 500
+        return '', 200
 
-        public_upload_folder = BASE_PUBLIC_STATIC_URL + (os.environ.get(
-            'ALUMNOS_UPLOAD_FOLDER') or 'img/photos/')
-        admin_upload_folder = BASE_ADMIN_STATIC_URL + (os.environ.get(
-            'ALUMNOS_UPLOAD_FOLDER') or 'img/photos/')
+    return render_template('admin_persona.html', type=_type)
 
-        _file = request.files['file']
-        filename = None
 
-        if _file and check_allowed_file(_file.filename):
-            extension = _file.filename.rsplit('.', 1)[1].lower()
-            filename = f"atleta-{inserted_row_id}.{extension}"
+# ENTRENADORES ROUTES
+@admin_blueprint.route('/entrenadores')
+@login_required
+def admin_trainers_screen():
+    """ Screen for trainers' administration """
+    entrenadores = get_items("entrenadores", PUBLIC_DATABASE)
 
-            save_file_to_multiple_directories(
-                _file, filename, [public_upload_folder, admin_upload_folder])
+    return render_template('admin_personas.html', personas=entrenadores, type="entrenadores")
 
-            info = {
-                "foto": f"{public_upload_folder.split('static/')[1]}/{filename}"}
 
-            update_record_in_db('atletas', PUBLIC_DATABASE,
-                                info, {'id': inserted_row_id})
+@admin_blueprint.route('/entrenadores/<_id>', methods=['GET', 'POST', 'DELETE'])
+@login_required
+def admin_trainer_screen(_id):
+    """ Screen for entrenadores' administration """
 
-    return render_template('admin_atleta.html')
+    _type = 'entrenadores'
+    if request.method == 'POST':
+        updated = update_one(PUBLIC_DATABASE, _type, request, _id)
+        if not updated:
+            return jsonify({'message': 'Something went wrong'}), 500
+        return '', 200
+
+    if request.method == 'DELETE':
+        deleted = delete_one(PUBLIC_DATABASE, _type, _id)
+
+        if not deleted:
+            return jsonify({'message': 'Something went wrong'}), 500
+
+        return jsonify({"redirect_to": f"/{_type}"}), 200
+
+    try:
+        entrenador = next(iter(get_items(_type, PUBLIC_DATABASE,
+                                         filters=[{'field': 'id', 'values': [_id]}])))
+    except Exception:
+        return f"Entrenador con id {_id} no encontrado, <a href='/atletas'>regresar</a>"
+
+    return render_template('admin_persona.html', persona=entrenador, type=_type)
+
+
+@admin_blueprint.route('/entrenadores/nuevo', methods=['GET', 'POST'])
+@login_required
+def admin_new_trainer_screen():
+    """ Screen to add new trainer """
+    _type = 'entrenadores'
+    if request.method == 'POST':
+        added = add_one(PUBLIC_DATABASE, _type, request)
+        if not added:
+            return jsonify({'message': 'Something went wrong'}), 500
+        return '', 200
+
+    return render_template('admin_persona.html', type=_type)

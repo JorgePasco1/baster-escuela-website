@@ -78,3 +78,6 @@
   transform: scale(1.02, 1.02);
 }
 
+.hidden {
+  visibility: hidden;
+}

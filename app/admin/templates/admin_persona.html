@@ -1,0 +1,49 @@
+{% extends "admin_layout.html" %}
+
+{% block title %}
+{{ type }}
+{% endblock %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('.static', filename='styles/shared.css') }}">
+{% endblock %}
+
+{% block main %}
+<h1>{{ type }}</h1>
+
+<h2>Administrar {{ type }}</h2>
+<a href="/{{ type }}">Volver a lista</a>
+
+<section class="atletas">
+    <div class="card-container">
+        <div class="card-item">
+            <form action='/{{ type }}/{{ persona["id"] if persona else "nuevo"}}' method="post" enctype="multipart/form-data">
+                {% if persona %}
+                <img src="{{ url_for('.static', filename=(persona['foto'] or 'img/logo.png')) }}">
+                {% endif %}
+                <label for="file">Foto en formato 'png', 'jpeg', 'jpg' o 'heic'</label>
+                <input type="file" name="file"><br>
+                <label for="nombre">Nombre</label>
+                <input name="nombre" type="text" value="{{ persona['nombre'] if persona else ''}}"><br>
+                <label for="apellido">Apellido</label>
+                <input name="apellido" type="text" value="{{ persona['apellido'] if persona else '' }}"><br>
+
+                <button>Guardar</button>
+            </form>
+        </div>
+    </div>
+
+    {% if persona %}
+    <button id="deleteButton" style="color:red" data-persona-id="{{persona['id']}}" data-type="{{ type }}">Eliminar esta persona</button>
+    <div class="delete-confirmation hidden">
+        <div>Seguro que quieres eliminar?</div>
+        <button id="confirmButton">Confirmar</button>
+        <button id="cancelButton">Cancelar</button>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}
+{% block scripts %}
+{% if persona %}
+<script src="{{ url_for('.static', filename='js/delete.js') }}"></script>
+{% endif %}
+{% endblock %}

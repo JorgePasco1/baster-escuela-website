@@ -36,8 +36,8 @@ def format_logros(logros: List[dict]) -> List[dict]:
     logros_formatted = logros
 
     # Order by year
-    for alumno_id, _logros in logros_formatted.items():
-        logros_formatted[alumno_id] = sorted(
+    for atleta_id, _logros in logros_formatted.items():
+        logros_formatted[atleta_id] = sorted(
             _logros, key=lambda x: x['año'], reverse=True)
 
     return logros_formatted
