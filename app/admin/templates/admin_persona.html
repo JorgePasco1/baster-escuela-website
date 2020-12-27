@@ -16,7 +16,8 @@
 <section class="atletas">
     <div class="card-container">
         <div class="card-item">
-            <form action='/{{ type }}/{{ persona["id"] if persona else "nuevo"}}' method="post" enctype="multipart/form-data">
+            <form action='/{{ type }}/{{ persona["id"] if persona else "nuevo"}}' method="post"
+                enctype="multipart/form-data">
                 {% if persona %}
                 <img src="{{ url_for('.static', filename=(persona['foto'] or 'img/logo.png')) }}">
                 {% endif %}
@@ -26,14 +27,17 @@
                 <input name="nombre" type="text" value="{{ persona['nombre'] if persona else ''}}"><br>
                 <label for="apellido">Apellido</label>
                 <input name="apellido" type="text" value="{{ persona['apellido'] if persona else '' }}"><br>
-
+                <label for="descripcion">Descripcion</label>
+                <textarea name="descripcion" rows="5"
+                    cols="50">{{ persona['descripcion'] if persona else '' }}</textarea><br>
                 <button>Guardar</button>
             </form>
         </div>
     </div>
 
     {% if persona %}
-    <button id="deleteButton" style="color:red" data-persona-id="{{persona['id']}}" data-type="{{ type }}">Eliminar esta persona</button>
+    <button id="deleteButton" style="color:red" data-persona-id="{{persona['id']}}" data-type="{{ type }}">Eliminar esta
+        persona</button>
     <div class="delete-confirmation hidden">
         <div>Seguro que quieres eliminar?</div>
         <button id="confirmButton">Confirmar</button>

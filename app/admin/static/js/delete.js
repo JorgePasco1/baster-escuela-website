@@ -15,10 +15,7 @@ confirmButton.addEventListener('click', async () => {
   const response = await fetch(url, {
     method: 'DELETE',
   });
-
   const json = await response.json();
-  console.log(json);
-
   window.location.replace(`${location.origin}${json.redirect_to}`);
 });
 

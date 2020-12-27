@@ -49,7 +49,7 @@ def delete_one(database, _type, _id):
     """ Delete one row from the database table by id """
 
     try:
-        delete_record_in_db('atletas', database, {'id': _id})
+        delete_record_in_db(_type, database, {'id': _id})
         return True
     except Exception as excep:
         print(excep)

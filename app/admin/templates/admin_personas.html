@@ -1,16 +1,16 @@
 {% extends "admin_layout.html" %}
 
 {% block title %}
-Atletas
+{{ type }}
 {% endblock %}
 {% block styles %}
 <link rel="stylesheet" type="text/css" href="{{ url_for('.static', filename='styles/shared.css') }}">
 {% endblock %}
 
 {% block main %}
-<h1>Atletas</h1>
+<h1>{{ type }}</h1>
 
-<h2>Administrar Atletas</h2><br>
+<h2>Administrar {{ type }}</h2><br>
 <a href="/{{ type }}/nuevo">Agregar nuevo</a><br>
 <a href="/home">Volver al inicio</a><br>
 
