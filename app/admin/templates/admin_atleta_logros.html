@@ -1,0 +1,40 @@
+{% extends "admin_layout.html" %}
+
+{% block title %}
+Logros de {{ atleta['nombre'] + ' ' + atleta['apellido'] }}
+{% endblock %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('.static', filename='styles/shared.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('.static', filename='styles/logros.css') }}">
+{% endblock %}
+
+{% block main %}
+<a href="/atletas/{{ atleta['id'] }}">Volver a atleta</a>
+<h1 class='logros-title' data-atleta-id="{{ atleta['id'] }}">Logros de {{ atleta['nombre'] + ' ' + atleta['apellido'] }}
+</h1>
+<ul>
+    {% for logro in logros %}
+    <li class="logro-li" data-logro-id="{{ logro['id'] }}">
+        {% if logro['tipo'] == 'Seleccionado'  %}
+        <div>{{ logro['año'] }}: Seleccionado Nacional</div>
+        {% else%}
+        <div>{{ logro['año'] }}: {{ logro['puesto'] }} {{ logro['nivel_torneo'] }}</div>
+        {% endif %}
+        <a href="/atletas/{{ atleta['id'] }}/logros/{{ logro['id'] }}">editar</a>
+        <button class="delete-button">eliminar</button>
+        <div class="delete-confirmation hidden">
+            <div>Seguro que quieres eliminar?</div>
+            <button class="confirmButton">Confirmar</button>
+            <button class="cancelButton">Cancelar</button>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+
+<form action='/logros-atletas' method="post">
+
+</form>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('.static', filename='js/deleteLogro.js') }}"></script>
+{% endblock %}

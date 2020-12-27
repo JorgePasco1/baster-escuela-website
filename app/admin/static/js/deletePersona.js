@@ -20,6 +20,5 @@ confirmButton.addEventListener('click', async () => {
 });
 
 cancelButton.addEventListener('click', () => {
-  console.log('cancel button');
   confirmationContainer.classList.add('hidden');
 });

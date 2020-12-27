@@ -1,7 +1,7 @@
 """ Helper functions """
 import unicodedata
 
-from typing import List
+from typing import List, Union
 
 
 def strip_accents(text):
@@ -14,7 +14,7 @@ def strip_accents(text):
 
 
 def group_results(results, group_by):
-    """ Grou results by an specified key """
+    """ Group results by an specified key """
     keys = {el.get(group_by) for el in results}
     grouped_results = {}
     for key in keys:
@@ -31,13 +31,17 @@ def month_number_to_text(month_number: int) -> str:
     return months[month_number - 1]
 
 
-def format_logros(logros: List[dict]) -> List[dict]:
+def format_logros(logros: Union[dict, List]) -> dict:
     """ Format logros """
     logros_formatted = logros
 
     # Order by year
-    for atleta_id, _logros in logros_formatted.items():
-        logros_formatted[atleta_id] = sorted(
-            _logros, key=lambda x: x['año'], reverse=True)
+    if isinstance(logros, dict):
+        for atleta_id, _logros in logros_formatted.items():
+            logros_formatted[atleta_id] = sorted(
+                _logros, key=lambda x: x['año'], reverse=True)
+    else:
+        logros_formatted = sorted(
+            logros_formatted, key=lambda x: x['año'], reverse=True)
 
     return logros_formatted

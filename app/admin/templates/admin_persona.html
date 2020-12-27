@@ -10,8 +10,11 @@
 {% block main %}
 <h1>{{ type }}</h1>
 
-<h2>Administrar {{ type }}</h2>
 <a href="/{{ type }}">Volver a lista</a>
+<h2>Administrar {{ type }}</h2>
+{% if type == 'atletas' %}
+<a href="/atletas/{{ persona['id'] }}/logros">Ver logros</a>
+{% endif %}
 
 <section class="atletas">
     <div class="card-container">
@@ -28,8 +31,8 @@
                 <label for="apellido">Apellido</label>
                 <input name="apellido" type="text" value="{{ persona['apellido'] if persona else '' }}"><br>
                 <label for="descripcion">Descripcion</label>
-                <textarea name="descripcion" rows="5"
-                    cols="50">{{ persona['descripcion'] if persona else '' }}</textarea><br>
+                <textarea name="descripcion" rows="5" placeholder="No presenta descripción"
+                    cols="50">{{ (persona['descripcion'] if persona else '') or '' }}</textarea><br>
                 <button>Guardar</button>
             </form>
         </div>
@@ -48,6 +51,6 @@
 {% endblock %}
 {% block scripts %}
 {% if persona %}
-<script src="{{ url_for('.static', filename='js/delete.js') }}"></script>
+<script src="{{ url_for('.static', filename='js/deletePersona.js') }}"></script>
 {% endif %}
 {% endblock %}

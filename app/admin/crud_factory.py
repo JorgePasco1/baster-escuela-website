@@ -12,6 +12,7 @@ variable_name_dict = {
     'atletas': 'ATLETAS'
 }
 
+# TODO: Refactor to just sent the data and not the complete request
 
 def update_one(database, _type, request, _id):
     """ Update one record in the database """
@@ -23,7 +24,7 @@ def update_one(database, _type, request, _id):
         admin_upload_folder = BASE_ADMIN_STATIC_URL + (os.environ.get(
             f'{variable_name}_UPLOAD_FOLDER') or 'img/photos/')
 
-        _file = request.files['file']
+        _file = request.files['file'] if request.files else None
         row_info = dict(request.form)
         filename = None
 
@@ -41,7 +42,7 @@ def update_one(database, _type, request, _id):
 
         return True
     except Exception as excep:
-        print(excep)
+        print("Error 🚨:", excep)
         return False
 
 

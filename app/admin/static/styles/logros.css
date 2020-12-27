@@ -1,0 +1,20 @@
+.logros-title{
+  margin-bottom: 2rem;
+}
+
+.logro-li {
+  display: flex;
+  margin-bottom: 2rem;
+}
+
+.logro-li > * {
+  margin-right: 1rem;
+}
+
+.delete-confirmation {
+  display: flex;
+}
+
+.delete-confirmation > * {
+  margin-right: .5rem;
+}

@@ -29,7 +29,6 @@ def admin_athlete_screen(_id):
         updated = update_one(PUBLIC_DATABASE, _type, request, _id)
         if not updated:
             return jsonify({'message': 'Something went wrong'}), 500
-        return '', 200
 
     if request.method == 'DELETE':
         deleted = delete_one(PUBLIC_DATABASE, _type, _id)
@@ -45,7 +44,6 @@ def admin_athlete_screen(_id):
     except Exception:
         return f"Alumnno con id {_id} no encontrado, <a href='/atletas'>regresar</a>"
 
-    print(atleta)
     return render_template('admin_persona.html', persona=atleta, type=_type)
 
 

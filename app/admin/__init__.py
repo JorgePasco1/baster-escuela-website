@@ -15,6 +15,10 @@ admin_blueprint = Blueprint('admin', __name__, template_folder='templates',
                             static_folder='static', static_url_path='/app/admin/static')
 
 
+# pylint: disable=wrong-import-position
+from app.admin.routes import achievements, atletas, directiva, trainers
+
+
 @admin_blueprint.route('/')
 def admin_redirect():
     """ Redirect '/' route to /home """

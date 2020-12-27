@@ -1,0 +1,46 @@
+{% extends "admin_layout.html" %}
+
+{% block title %}
+Editar Logro
+{% endblock %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('.static', filename='styles/shared.css') }}">
+{% endblock %}
+
+{% block main %}
+<h1>Editar Logro de {{ atleta['nombre'] + ' ' + atleta['apellido'] }}</h1>
+
+<a href="/atletas/{{ atleta['id'] }}/logros">Volver a lista</a>
+
+<section class="atletas">
+    <div class="card-container">
+        <div class="card-item">
+            <form action="/atletas/{{ atleta['id'] }}/logros/{{ logro['id'] if logro else 'nuevo'}}" method="post"
+                enctype="multipart/form-data">
+                <label for="año">Año</label>
+                <input name="año" type="number" min="2010" max="2050" step="1" value="{{ logro['año'] }}"><br>
+                <label for="tipo">Tipo</label>
+                <input name="tipo" type="text" value="{{ logro['tipo'] if logro['tipo'] else '' }}"><br>
+                <label for="tipo">Nivel de torneo</label>
+                <input name="nivel_torneo" type="text"
+                    value="{{ logro['nivel_torneo'] if logro['nivel_torneo'] else '' }}"><br>
+                <label for="puesto">Puesto</label>
+                <input name="puesto" type="text" value="{{ logro['puesto'] if logro['puesto'] else '' }}"><br>
+                <label for="categoria">Categoría</label>
+                <input name="categoria" type="text" value="{{ logro['categoria'] if logro['categoria'] else '' }}"><br>
+                <button>Guardar</button>
+            </form>
+        </div>
+    </div>
+
+    {% if persona %}
+    <button id="deleteButton" style="color:red" data-persona-id="{{persona['id']}}" data-type="{{ type }}">Eliminar esta
+        persona</button>
+    <div class="delete-confirmation hidden">
+        <div>Seguro que quieres eliminar?</div>
+        <button id="confirmButton">Confirmar</button>
+        <button id="cancelButton">Cancelar</button>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}
