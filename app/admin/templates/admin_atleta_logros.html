@@ -10,6 +10,7 @@ Logros de {{ atleta['nombre'] + ' ' + atleta['apellido'] }}
 
 {% block main %}
 <a href="/atletas/{{ atleta['id'] }}">Volver a atleta</a>
+<a href="/atletas/{{ atleta['id'] }}/logros/nuevo">Agregar nuevo logro</a>
 <h1 class='logros-title' data-atleta-id="{{ atleta['id'] }}">Logros de {{ atleta['nombre'] + ' ' + atleta['apellido'] }}
 </h1>
 <ul>

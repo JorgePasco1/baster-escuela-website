@@ -66,10 +66,25 @@ def atleta_achievement_screen(athlete_id, logro_id):
 
     try:
         atleta = next(iter(get_items('atletas', PUBLIC_DATABASE, filters=[
-                       {'field': 'id', 'values': [athlete_id]}])))
+            {'field': 'id', 'values': [athlete_id]}])))
         logro = next(iter(get_items('logros', PUBLIC_DATABASE,
                                     filters=[{'field': 'id', 'values': [logro_id]}])))
     except Exception:
         return f"Logro con id {logro_id} no encontrado, <a href='/atletas/{athlete_id}/logros'>regresar</a>"
 
     return render_template('admin_atleta_logro.html', atleta=atleta, logro=logro)
+
+
+@admin_blueprint.route('/atletas/<athlete_id>/logros/nuevo', methods=['GET', 'POST'])
+@login_required
+def admin_new_achievement_screen(athlete_id):
+    """ Screen to add new milestone """
+    _type = 'hito'
+    if request.method == 'POST':
+        added = add_one(PUBLIC_DATABASE, _type, request)
+        if not added:
+            return jsonify({'message': 'Something went wrong'}), 500
+
+    atleta = next(iter(get_items('atletas', PUBLIC_DATABASE, filters=[
+        {'field': 'id', 'values': [athlete_id]}])))
+    return render_template('admin_atleta_logro.html', atleta=atleta)

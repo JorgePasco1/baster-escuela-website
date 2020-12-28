@@ -1,0 +1,45 @@
+{% extends "admin_layout.html" %}
+
+{% block title %}
+Editar Hito
+{% endblock %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('.static', filename='styles/shared.css') }}">
+{% endblock %}
+
+{% block main %}
+<h1>{{ 'Editar' if hito else 'Agregar' }} Hito</h1>
+
+<a href="/hitos">Volver a lista</a>
+
+<section class="atletas">
+    <div class="card-container">
+        <div class="card-item">
+            <form action="/hitos/{{ hito['id'] if hito else 'nuevo'}}" method="post" enctype="multipart/form-data">
+                <label for="año">Año</label>
+                <input name="año" type="number" min="2010" max="2050" step="1"
+                    value="{{ hito['año'] if hito else ''}}"><br>
+                <label for="mes">Mes</label>
+                <input name="mes" type="number" min="1" max="12" step="1" value="{{ hito['mes'] if hito else ''}}"><br>
+                <label for="titulo">Titulo</label>
+                <input name="titulo" type="text"
+                    value="{{ hito['titulo'] if hito and hito.get('titulo') else '' }}"><br>
+                <label for="descripcion">Descripcion</label>
+                <textarea name="descripcion" rows="5" cols="50"
+                    placeholder="Sin descripcion">{{ hito['descripcion'] if hito and hito.get('descripcion') else '' }}</textarea><br>
+                <button>Guardar</button>
+            </form>
+        </div>
+    </div>
+
+    {% if persona %}
+    <button id="deleteButton" style="color:red" data-persona-id="{{persona['id']}}" data-type="{{ type }}">Eliminar esta
+        persona</button>
+    <div class="delete-confirmation hidden">
+        <div>Seguro que quieres eliminar?</div>
+        <button id="confirmButton">Confirmar</button>
+        <button id="cancelButton">Cancelar</button>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

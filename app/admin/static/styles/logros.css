@@ -2,12 +2,12 @@
   margin-bottom: 2rem;
 }
 
-.logro-li {
+.logro-li, .hito-li {
   display: flex;
   margin-bottom: 2rem;
 }
 
-.logro-li > * {
+.logro-li > *, .hito-li > * {
   margin-right: 1rem;
 }
 

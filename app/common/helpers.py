@@ -25,10 +25,17 @@ def group_results(results, group_by):
 
 
 def month_number_to_text(month_number: int) -> str:
-    """ get month text from number """
+    """ Get month text from number """
     months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
               'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
     return months[month_number - 1]
+
+
+def month_text_to_number(month_text: str) -> int:
+    """ Get month number from text"""
+    months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
+              'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
+    return months.index(month_text) + 1
 
 
 def format_logros(logros: Union[dict, List]) -> dict:

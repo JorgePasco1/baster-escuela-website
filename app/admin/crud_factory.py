@@ -70,7 +70,7 @@ def add_one(database, _type, request):
         admin_upload_folder = BASE_ADMIN_STATIC_URL + (os.environ.get(
             f'{variable_name}_UPLOAD_FOLDER') or 'img/photos/')
 
-        _file = request.files['file']
+        _file = request.files['file'] if request.files else None
         filename = None
 
         if _file and check_allowed_file(_file.filename):

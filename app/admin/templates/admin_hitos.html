@@ -1,0 +1,34 @@
+{% extends "admin_layout.html" %}
+
+{% block title %}
+Hitos
+{% endblock %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('.static', filename='styles/shared.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('.static', filename='styles/logros.css') }}">
+{% endblock %}
+
+{% block main %}
+<h1>Hitos</h1>
+
+<h2>Administrar hitos</h2><br>
+<a href="/hitos/nuevo">Agregar nuevo</a><br>
+<a href="/home">Volver al inicio</a><br>
+<ul>
+    {% for hito in hitos %}
+    <li class="hito-li" data-hito-id="{{ hito['id'] }}">
+        <div>{{ hito['año'] }}: {{ hito['titulo'] }}. {{ hito['descripcion'] }}</div>
+        <a href="/hitos/{{ hito['id'] }}">editar</a>
+        <button class="delete-button">eliminar</button>
+        <div class="delete-confirmation hidden">
+            <div>Seguro que quieres eliminar?</div>
+            <button class="confirmButton">Confirmar</button>
+            <button class="cancelButton">Cancelar</button>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('.static', filename='js/deleteHito.js') }}"></script>
+{% endblock %}

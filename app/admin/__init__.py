@@ -16,7 +16,7 @@ admin_blueprint = Blueprint('admin', __name__, template_folder='templates',
 
 
 # pylint: disable=wrong-import-position
-from app.admin.routes import achievements, atletas, directiva, trainers
+from app.admin.routes import achievements, atletas, directiva, trainers, hitos
 
 
 @admin_blueprint.route('/')

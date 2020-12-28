@@ -38,12 +38,12 @@ def admin_directiva_miembro_screen(_id):
         return jsonify({"redirect_to": "/directiva"}), 200
 
     try:
-        entrenador = next(iter(get_items(_type, PUBLIC_DATABASE,
+        miembro_directiva = next(iter(get_items(_type, PUBLIC_DATABASE,
                                          filters=[{'field': 'id', 'values': [_id]}])))
     except Exception:
-        return f"Entrenador con id {_id} no encontrado, <a href='/atletas'>regresar</a>"
+        return f"Miembro de directiva con id {_id} no encontrado, <a href='/directiva'>regresar</a>"
 
-    return render_template('admin_persona.html', persona=entrenador, type='directiva')
+    return render_template('admin_persona.html', persona=miembro_directiva, type='directiva')
 
 
 @admin_blueprint.route('/directiva/nuevo', methods=['GET', 'POST'])

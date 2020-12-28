@@ -8,7 +8,7 @@ Editar Logro
 {% endblock %}
 
 {% block main %}
-<h1>Editar Logro de {{ atleta['nombre'] + ' ' + atleta['apellido'] }}</h1>
+<h1>{{ 'Editar' if logro else 'Agregar' }} Logro de {{ atleta['nombre'] + ' ' + atleta['apellido'] }}</h1>
 
 <a href="/atletas/{{ atleta['id'] }}/logros">Volver a lista</a>
 
@@ -18,16 +18,16 @@ Editar Logro
             <form action="/atletas/{{ atleta['id'] }}/logros/{{ logro['id'] if logro else 'nuevo'}}" method="post"
                 enctype="multipart/form-data">
                 <label for="año">Año</label>
-                <input name="año" type="number" min="2010" max="2050" step="1" value="{{ logro['año'] }}"><br>
+                <input name="año" type="number" min="2010" max="2050" step="1" value="{{ logro['año'] if logro else ''}}"><br>
                 <label for="tipo">Tipo</label>
-                <input name="tipo" type="text" value="{{ logro['tipo'] if logro['tipo'] else '' }}"><br>
-                <label for="tipo">Nivel de torneo</label>
+                <input name="tipo" type="text" value="{{ logro['tipo'] if logro and logro.get('tipo') else '' }}"><br>
+                <label for="nivel_torneo">Nivel de torneo</label>
                 <input name="nivel_torneo" type="text"
-                    value="{{ logro['nivel_torneo'] if logro['nivel_torneo'] else '' }}"><br>
+                    value="{{ logro['nivel_torneo'] if logro and logro.get('nivel_torneo') else '' }}"><br>
                 <label for="puesto">Puesto</label>
-                <input name="puesto" type="text" value="{{ logro['puesto'] if logro['puesto'] else '' }}"><br>
+                <input name="puesto" type="text" value="{{ logro['puesto'] if logro and logro.get('puesto') else '' }}"><br>
                 <label for="categoria">Categoría</label>
-                <input name="categoria" type="text" value="{{ logro['categoria'] if logro['categoria'] else '' }}"><br>
+                <input name="categoria" type="text" value="{{ logro['categoria'] if logro and logro.get('categoria') else '' }}"><br>
                 <button>Guardar</button>
             </form>
         </div>
