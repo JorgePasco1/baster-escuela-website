@@ -15,7 +15,7 @@ PUBLIC_DATABASE = './baster_escuela.db'
 @user_blueprint.route('/')
 def home():
     """ Public Home """
-    return render_template("index.html")
+    return render_template("index2.html")
 
 
 @user_blueprint.route('/about')

@@ -9,11 +9,12 @@ from app.common.database import update_record_in_db, delete_record_in_db, add_ne
 
 variable_name_dict = {
     'entrenadores': 'ENTRENADORES',
-    'atletas': 'ATLETAS'
+    'atletas': 'ATLETAS',
+    'miembros_directiva': 'DIRECTIVA'
 }
 
-# TODO: Refactor to just sent the data and not the complete request
 
+# TODO: Refactor to just sent the data and not the complete request
 def update_one(database, _type, request, _id):
     """ Update one record in the database """
     try:
