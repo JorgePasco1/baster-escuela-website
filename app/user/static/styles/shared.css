@@ -1,5 +1,5 @@
 :root {
-  --main-red: rgb(226, 70, 3);
+  --main-red: #e24603;
   --main-orange: #e57d02;
   --dark-gray: #252525;
   --super-light-gray: #fcfcfc;
@@ -26,7 +26,7 @@ ul {
 }
 
 nav {
-  width: 100%;
+  width: 100vw;
   height: 5rem;
   background-color: var(--dark-gray);
   display: flex;
@@ -85,7 +85,7 @@ main {
   padding-bottom: 3rem;
   z-index: 1;
   margin-bottom: 15rem;
-  min-height: calc(100vh - 5rem);
+  min-height: calc(100vh - 23rem);
 }
 
 h1 {
@@ -183,7 +183,7 @@ section {
 footer {
   position: fixed;
   bottom: 0;
-  width: 100%;
+  width: 100vw;
   z-index: -1;
   height: 15rem;
   background-color: var(--dark-gray);
@@ -253,4 +253,29 @@ footer .siguenos-content img {
   width: 1rem;
   filter: invert(100%) sepia(0%) saturate(4921%) hue-rotate(184deg)
     brightness(97%) contrast(72%);
+}
+
+@media (orientation: portrait) {
+  nav {
+    font-size: 5%;
+  }
+
+  .menu-container img {
+    width: 70%;
+    height: auto;
+  }
+
+  .card-item img {
+    width: 80vw;
+    height: auto;
+  }
+
+  .info-container {
+    width: 100%;
+    display: grid;
+  }
+
+  .siguenos-content {
+    width: 80%;
+  }
 }

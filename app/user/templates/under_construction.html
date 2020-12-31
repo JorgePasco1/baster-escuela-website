@@ -1,0 +1,6 @@
+{% macro under_construction() %}
+    <div style="height: calc(100vh - 23rem); display: flex; flex-direction:column; align-items:center; justify-content:center">
+        <h3 style="text-align:center; margin:2rem 0; font-family:Montserrat">En construcción</h3>
+        <img src="{{ url_for('.static', filename='img/under-construction.svg') }}" style="width:50vw;">
+    </div>
+{% endmacro %}
