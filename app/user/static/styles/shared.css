@@ -15,6 +15,7 @@
 
 body {
   background-color: var(--super-light-gray);
+  overflow-x: hidden;
 }
 
 a {
@@ -105,6 +106,14 @@ h2 {
   font-size: 2.5rem;
   font-weight: 800;
   color: var(--main-red);
+}
+
+h3 {
+  text-align: center;
+  font-family: var(--title);
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--main-orange);
 }
 
 p {

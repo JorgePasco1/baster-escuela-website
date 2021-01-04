@@ -1,4 +1,5 @@
 .custom-splide {
+  margin: 1rem 0;
   width: 60%;
 }
 
@@ -18,7 +19,7 @@ h2 {
 }
 
 .abierto-parrafo {
-  margin-top: .5rem;
+  margin-top: 0.5rem;
   font-size: 1.5rem;
   padding: 0 3rem 0 3rem;
 }
@@ -34,8 +35,30 @@ h2 {
   margin-bottom: 1rem;
 }
 
+.auspiciadores-imgs {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 80%;
+}
+
+.auspiciadores-imgs > img {
+  height: 8rem;
+  width: auto;
+  margin: 1rem 1rem 1rem 0;
+}
+
 @media (orientation: portrait) {
   .abierto-parrafo {
     font-size: 1rem;
+  }
+
+  .custom-splide {
+    width: 90%;
+  }
+
+  .auspiciadores-imgs > img {
+    max-width: 50vw;
+    height: auto;
   }
 }

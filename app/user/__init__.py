@@ -4,6 +4,7 @@ from flask import Blueprint, render_template, request, jsonify, url_for
 
 from app.common.database import get_items
 from app.common.helpers import format_logros
+from app.common.constants import BASE_PUBLIC_STATIC_URL
 from app.common.file_system import get_all_file_names_in_a_folder
 
 user_blueprint = Blueprint('user', __name__, template_folder='templates',
@@ -47,8 +48,11 @@ def atletas():
 def abierto():
     """ Renders page about the school's tournament """
     name = 'abierto'
-    filenames = get_all_file_names_in_a_folder('app/user/static/img/photos/abierto')
-    return render_template(f"{name}.html", active=name, filenames=filenames)
+    filenames = get_all_file_names_in_a_folder(
+        f'{BASE_PUBLIC_STATIC_URL}/img/photos/abierto')
+    auspiciadores = get_all_file_names_in_a_folder(
+        f'{BASE_PUBLIC_STATIC_URL}/img/photos/auspiciadores-abierto-2019')
+    return render_template(f"{name}.html", active=name, filenames=filenames, auspiciadores=auspiciadores)
 
 
 @user_blueprint.route('/productos')

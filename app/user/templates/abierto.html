@@ -37,6 +37,7 @@ Abierto Baster Escuela
         empresas auspiciadoras de la región, a quiénes agradecemos enormemente su colaboración a nuestra misión de
         desarrollar el tenis de mesa en el norte del país 👏, y confiamos en que se sumarán nuevos impulsadores a la causa 🙌.
     </p>
+    <h3>Galería</h3>
     <div id="image-slider" class="splide custom-splide">
         <div class="splide__track">
             <ul class="splide__list">
@@ -47,6 +48,12 @@ Abierto Baster Escuela
                 {% endfor %}
             </ul>
         </div>
+    </div>
+    <h3>Auspiciadores</h3>
+    <div class="auspiciadores-imgs">
+        {% for auspiciador in auspiciadores %}
+        <img src="{{ url_for('.static', filename='img/photos/auspiciadores-abierto-2019/' + auspiciador) }}">
+        {%  endfor %}
     </div>
 </div>
 {% endblock %}
