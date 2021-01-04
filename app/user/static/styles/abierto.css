@@ -1,0 +1,41 @@
+.custom-splide {
+  width: 60%;
+}
+
+.abierto-description {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+}
+
+.abierto-description > p {
+  max-width: 50rem;
+}
+
+h2 {
+  margin-bottom: 0;
+}
+
+.abierto-parrafo {
+  margin-top: .5rem;
+  font-size: 1.5rem;
+  padding: 0 3rem 0 3rem;
+}
+
+.past-abierto {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.past-abierto .abierto-parrafo {
+  max-width: 80%;
+  margin-bottom: 1rem;
+}
+
+@media (orientation: portrait) {
+  .abierto-parrafo {
+    font-size: 1rem;
+  }
+}

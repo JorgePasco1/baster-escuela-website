@@ -1,9 +1,56 @@
+{% from 'under_construction.html' import under_construction %}
 {% extends "layout.html" %}
 
 {% block title %}
 Abierto Baster Escuela
 {% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('.static', filename='styles/splide.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('.static', filename='styles/abierto.css') }}">
+{% endblock %}
 
 {% block main %}
-Abierto Baster Escuela
+<h1>ABIERTO BASTER CIX</h1>
+<div class="abierto-description">
+    <p class="abierto-parrafo">
+        El <strong>Abierto Interncional Baster Cix</strong> nace como una iniciativa para promover el tenis de mesa 🏓 en los distintos niveles
+        y estratos sociales de la zona norte del país 🇵🇪, así como la posibilidad para los jugadores locales activos de contar
+        con una competencia descentralizada de talla internacional 🌍.
+    </p>
+    <p class="abierto-parrafo">
+        Nuestro abierto es un evento perteneciente al circuito nacional de la Federación Peruana de Tenis de Mesa,
+        certificado en la categoría Desafío 💪, con prospecto de crecer hasta conseguir la calificación de Elite 🔝, según las
+        nuevas normas establecidas por el ente rector.
+    </p>
+</div>
+
+<h2>Abierto 2019</h2>
+<div class="past-abierto">
+    <p class="abierto-parrafo">
+        El primer abierto Baster Cix se llevó acabo entre el 18 al y el 20 de abril del 2019, en el coliseo del colegio
+        Elías Aguirre. Recibimos atletas del norte y centro del país, así como extranjeros de Ecuador 🇪🇨, Venezuela 🇻🇪 y la
+        selección de mayores de Cuba 🇨🇺. Se contó contó con categorías para atletas de edades pequeñas como 8 y 9 años hasta
+        todo competidor, incluyendo una exclusiva para jugadores universitarios 👌.
+    </p>
+    <p class="abierto-parrafo">
+        La realización del evento fue posible no sólo por los grandes esfuerzos del club, sino también por el apoyo de
+        empresas auspiciadoras de la región, a quiénes agradecemos enormemente su colaboración a nuestra misión de
+        desarrollar el tenis de mesa en el norte del país 👏, y confiamos en que se sumarán nuevos impulsadores a la causa 🙌.
+    </p>
+    <div id="image-slider" class="splide custom-splide">
+        <div class="splide__track">
+            <ul class="splide__list">
+                {% for filename in filenames %}
+                <li class="splide__slide">
+                    <img src="{{ url_for('.static', filename='img/photos/abierto/' + filename) }}">
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('.static', filename='js/splide.min.js') }}"></script>
+<script src="{{ url_for('.static', filename='js/abierto.js') }}"></script>
 {% endblock %}

@@ -14,7 +14,7 @@ from app.common.helpers import month_text_to_number
 @login_required
 def admin_hitos_screen():
     """ Screen for milestones administration """
-    hitos = get_items("hitos", PUBLIC_DATABASE)
+    hitos = get_items("hitos", PUBLIC_DATABASE, order_by=[['año', 'ASC'], ['mes', 'ASC']])
 
     return render_template('admin_hitos.html', hitos=hitos)
 

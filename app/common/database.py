@@ -32,6 +32,18 @@ def create_filters_string(filters):
     return final_filter_string
 
 
+def create_order_by_string(order_by_list):
+    """ order_by_list takes the form of [[<field1>, (ASC|DESC)], [<field2>, (ASC|DESC)]] """
+    if not order_by_list:
+        return ''
+
+    order_by_string = 'ORDER BY '
+    for i, item in enumerate(order_by_list):
+        order_by_string = order_by_string + \
+            item[0] + ' ' + item[1] + (',' if i < len(order_by_list) - 1 else '')
+    return order_by_string
+
+
 def create_fields_string(fields):
     """ Create a sql fields string from a list of fields """
     if not fields:
@@ -52,7 +64,7 @@ def connect_to_db(db_name):
         print(Exception)
 
 
-def get_items(table, db_name, filters=None, group_by=None, fields=None):
+def get_items(table, db_name, filters=None, group_by=None, fields=None, order_by=None):
     """Get records of a table, and, in case of having a photo column, write blob to file and
     get filename"""
     result_array = []
@@ -60,9 +72,10 @@ def get_items(table, db_name, filters=None, group_by=None, fields=None):
 
     fields_string = create_fields_string(fields)
     filter_string = create_filters_string(filters)
+    order_by_string = create_order_by_string(order_by)
 
     results = database.execute(
-        f"SELECT {fields_string} FROM {table} {filter_string}").fetchall()
+        f"SELECT {fields_string} FROM {table} {filter_string} {order_by_string}").fetchall()
 
     for element in results:
         new_item = {}

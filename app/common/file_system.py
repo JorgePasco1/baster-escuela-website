@@ -1,6 +1,7 @@
 """ Functions related to file system """
 
 import os
+from typing import List
 
 
 # def write_blob_to_file(data, _type, file_name):
@@ -27,3 +28,9 @@ def save_file_to_multiple_directories(_file, filename, directories):
         filepath = os.path.join(directory, filename)
         _file.save(filepath)
         _file.stream.seek(0)
+
+
+def get_all_file_names_in_a_folder(directory_name: str) -> List[str]:
+    """ Get all files stored in a directory """
+    _, _, filenames = next(os.walk(directory_name))
+    return filenames
