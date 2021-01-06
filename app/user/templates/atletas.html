@@ -10,15 +10,17 @@ Nuestros Atletas
 
 {% block main %}
 <h1>NUESTROS ATLETAS</h1>
-<p>Nuestros atletas son el <span class="bold red">corazón</span> de nuestro club, aquellos que llevan a la gloria el
-    nombre de la <span class="bold orange">escuela</span>. Cada uno de ellos destaca por sus cualidades únicas, las
-    cuáles buscamos potenciar mediante un <span>entrenamiento especializado</span>. 💪 Haz click en un atleta para
+<p>Los atletas son el <span class="bold red">corazón</span> de nuestro club, aquellos que con su esfuerzo y dedicación
+    dejan en alto el nombre de la <span class="bold orange">Escuela</span>. Cada uno de ellos destaca por sus cualidades
+    únicas, las
+    cuáles buscamos potenciar mediante un <span>entrenamiento especializado</span>💪. Haz click en un atleta para
     conocer sus logros 🥇</p>
 <section class="atletas">
     <div class="card-container">
         {% for atleta in atletas %}
         <div class="card-item">
-            <img class="clickable atelta-clickable-photo" src="{{ url_for('.static', filename=(atleta['foto']) or 'img/logo.png')}}"
+            <img class="clickable atelta-clickable-photo"
+                src="{{ url_for('.static', filename=(atleta['foto']) or 'img/logo.png')}}"
                 data-player_id="{{ atleta['id'] }}" data-micromodal-trigger="modal-{{ atleta['id'] }}">
             <div class="card-item-name">{{ atleta["nombre"] }} <span class="bold">{{ atleta["apellido"] }}</span>
             </div>
@@ -54,7 +56,8 @@ Nuestros Atletas
                                 <span><strong>{{ logro["año"] }}:</strong> </span>
                                 {% if logro["tipo"] == 'Torneo' %}
                                 <span>Torneo {{ logro["nivel_torneo"] }} - {{ logro["puesto"] }}
-                                    {{ "(Categoría {})".format(logro['categoria']) if logro["categoria"] else '' }}</span>
+                                    {{ "(Categoría {})".format(logro['categoria']) if logro["categoria"] else ''
+                                    }}</span>
                                 {% elif logro["tipo"] == 'Seleccionado' %}
                                 <span>Seleccionado Nacional</span>
                                 {% else %}

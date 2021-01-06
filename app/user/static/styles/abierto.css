@@ -11,7 +11,7 @@
 }
 
 .abierto-description > p {
-  max-width: 50rem;
+  max-width: 40vw;
 }
 
 h2 {
@@ -60,5 +60,9 @@ h2 {
   .auspiciadores-imgs > img {
     max-width: 50vw;
     height: auto;
+  }
+
+  .abierto-description > p {
+    max-width: 100rem;
   }
 }
